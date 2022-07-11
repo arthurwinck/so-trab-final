@@ -5,7 +5,7 @@ Dependências:
 
 - libpng
 
-```sudo apt-get install libpng```
+```sudo apt-get install libpng-dev```
 
 - sfml
 
