@@ -12,7 +12,7 @@
  *      O: Big Pill
  *      E: Eaten Big Pill
  */
-/*
+
 typedef enum {W, G, P, u, o, e, O, E, F} tile;
 
 // 2D array defines the size of the maze and also what each tile contains
@@ -47,7 +47,7 @@ tile maze[28][31] =
                 {W,o,o,o,o,W,W,O,o,o,o,W,u,u,u,W,u,W,u,u,u,W,o,o,o,o,O,o,o,o,W},
                 {W,W,W,W,W,W,W,W,W,W,W,W,u,u,u,W,P,W,u,u,u,W,W,W,W,W,W,W,W,W,W}
         };
-*/
+
 
 Window::Window()
 {
