@@ -1,4 +1,5 @@
 #include "window.h"
+#include "math.h"
 
 
 /**
@@ -56,6 +57,11 @@ Window::Window()
 
 void Window::draw_texture(unsigned int texture, int length, int height, float angle)
 {
+    // Como buscar a textura certa pelo inteiro?
+    // Teste - ver trabalho do pacman do pdf para implementar a tradução do tilemap para a posição do jogo
+    this->pac_0_sprite.setPosition(floor(length*500/28), floor(height*500/31));
+    this->pac_0_sprite.rotate(angle);
+    
 }
 
 void Window::run()
@@ -65,6 +71,7 @@ void Window::run()
     //Link: https://www.sfml-dev.org/tutorials/2.5/window-events.php
     //https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Keyboard.php
     window.setKeyRepeatEnabled(false);
+    int i = 0;
 
     while (window.isOpen())
     {
@@ -96,10 +103,14 @@ void Window::run()
         window.clear();
         window.draw(maze_sprite);
         pac_0_sprite.setPosition(220, 365);
+        //draw_texture(0, 20 + i, 20, 0);
+        
         window.draw(pac_0_sprite);
         ghost_r_0_sprite.setPosition(245, 150);
         window.draw(ghost_r_0_sprite);
         window.display();
+
+        //i = (i + 1) % 4;
     }
 }
 
