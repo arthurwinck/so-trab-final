@@ -17,7 +17,7 @@ public:
 
     void draw_texture(unsigned int texture, int length, int height, float angle);
 
-    void transpose_tilemap(tile tilemap[28][31]);
+    //void transpose_tilemap(tile tilemap[28][31]);
 private:
     void load_and_bind_textures();
 

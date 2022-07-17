@@ -178,7 +178,7 @@ private:
         int i ;
 
         std::cout << name << ": inicio\n";
-
+        tela->run();
         sem->p();
         for (i = 0; i < ITERATIONS; i++)
         {
@@ -205,7 +205,7 @@ private:
         static Ghost* pink_ghost_obj;
         static Ghost* orange_ghost_obj;
         static Ghost* blue_ghost_obj;
-        static Tela* tela_obj;
+        static Window* tela_obj;
         static Input* input_obj;
         
 

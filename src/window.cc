@@ -15,7 +15,6 @@ __BEGIN_API
  *      E: Eaten Big Pill
  */
 
-typedef enum {W, G, P, u, o, e, O, E, F} tile;
 
 // 2D array defines the size of the maze and also what each tile contains
 // tile maze[28][31] =
@@ -50,37 +49,39 @@ typedef enum {W, G, P, u, o, e, O, E, F} tile;
 //                 {W,W,W,W,W,W,W,W,W,W,W,W,u,u,u,W,P,W,u,u,u,W,W,W,W,W,W,W,W,W,W}
 //         };
 
-tile maze[31][28] = {['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W']
-['W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W']
-['W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W']
-['W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W']
-['W', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'W']
-['W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W']
-['W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W']
-['W', 'O', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'O', 'W']
-['W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W']
-['W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W']
-['W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W']
-['W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W']
-['u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u']
-['u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u']
-['u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u']
-['W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'u', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'u', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W']
-['P', 'u', 'u', 'u', 'u', 'u', 'o', 'u', 'u', 'u', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'u', 'u', 'u', 'o', 'u', 'u', 'u', 'u', 'u', 'P']
-['W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'u', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'u', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W']
-['u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'W', 'W', 'W', 'G', 'G', 'W', 'W', 'W', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u']
-['u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u']
-['u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u']
-['W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W']
-['W', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'W']
-['W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W']
-['W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W']
-['W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W']
-['W', 'O', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'O', 'W']
-['W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W']
-['W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W']
-['W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W']
-['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W']};
+
+//31 por 28
+char maze[868] = {'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W',
+'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W',
+'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W',
+'W', 'O', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'O', 'W',
+'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W',
+'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W',
+'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W',
+'W', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'W',
+'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W',
+'u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u',
+'u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u',
+'u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'W', 'W', 'W', 'G', 'G', 'W', 'W', 'W', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u',
+'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'u', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'u', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W',
+'P', 'u', 'u', 'u', 'u', 'u', 'o', 'u', 'u', 'u', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'u', 'u', 'u', 'o', 'u', 'u', 'u', 'u', 'u', 'P',
+'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'u', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'u', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W',
+'u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u',
+'u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u',
+'u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u',
+'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W',
+'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W',
+'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W',
+'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W',
+'W', 'O', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'O', 'W',
+'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W',
+'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W',
+'W', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'W',
+'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W',
+'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W',
+'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W',
+'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'};
 
 
 Window::Window()
@@ -88,15 +89,7 @@ Window::Window()
     load_and_bind_textures();
 }
 
-void Window::transpose_tilemap(tile tilemap[28][31]) {
-    tile new_tilemap[31][28];
-    for (int i = 0; i < 28; i++) {
-        for (int j = 0; i < 31; j++) {
-            new_tilemap[i][j] = tilemap[j][i];
-        }
-    }
-    std::cout << new_tilemap;
-}
+
 
 void Window::draw_texture(unsigned int texture, int length, int height, float angle)
 {
@@ -136,9 +129,49 @@ void Window::run()
             
             }
         }
-
         window.clear();
         window.draw(maze_sprite);
+
+//rendereriza pontos
+        div_t position;
+        for (int tile=0; tile<868;tile++) {
+            if (maze[tile]=='o'){
+                position = div (tile,28);
+                //Vetor de 28x31=868 posições usado como "grid"
+                //calculo de pos(x): 16x (Tile Mod 28) + (offset de 3 se quiser deixar mais bonito)
+                //calculo de pos(y): (Tile//28) * 16
+                pill_sprite.setPosition ((position.rem) * 16 + 3 ,(position.quot) * 16 );
+                window.draw(pill_sprite);
+            }
+                
+        }
+
+//renderiza os 4 energizadores
+        if (maze[138]=='O'){
+                position = div (138,28);
+                bigPill_sprite.setPosition ((position.rem) * 16 + 3,(int)(position.quot) * 16 );
+                window.draw(bigPill_sprite);
+        }
+
+        if (maze[645]=='O'){
+                position = div (645,28);
+                bigPill_sprite.setPosition ((position.rem) * 16 + 3,(int)(position.quot) * 16 );
+                window.draw(bigPill_sprite);
+        }
+
+        if (maze[670]=='O'){
+                position = div (670,28);
+                bigPill_sprite.setPosition ((position.rem) * 16 + 3,(int)(position.quot) * 16 );
+                window.draw(bigPill_sprite);
+        }
+
+        if (maze[113]=='O'){
+                position = div (113,28);
+                bigPill_sprite.setPosition ((position.rem) * 16 + 3,(int)(position.quot) * 16 );
+                window.draw(bigPill_sprite);
+        }
+
+        window.draw(pill_sprite);
         pac_0_sprite.setPosition(220, 365);
         window.draw(pac_0_sprite);
         ghost_r_0_sprite.setPosition(245, 150);
