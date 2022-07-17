@@ -17,12 +17,25 @@ public:
 
     void draw_texture(unsigned int texture, int length, int height, float angle);
 
-    //void transpose_tilemap(tile tilemap[28][31]);
+    void draw_pacman(unsigned int texture, int length, int height, float angle, sf::RenderWindow* window);
+    void draw_ghost(unsigned int texture, int length, int height, float angle, sf::Sprite sprite_list[2], sf::RenderWindow* window);
+
 private:
     void load_and_bind_textures();
 
 
 private:
+    // Animation lists
+    sf::Sprite pacman_animate[3];
+    sf::Sprite red_ghost_animate[2];
+    sf::Sprite yellow_ghost_animate[2];
+    sf::Sprite pink_ghost_animate[2];
+    sf::Sprite blue_ghost_animate[2];
+
+
+    //Clock
+    sf::Clock clock;
+
 
     // Maze Textures
     sf::Texture maze_tex;
