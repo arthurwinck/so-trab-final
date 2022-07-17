@@ -6,6 +6,10 @@
 #include "traits.h"
 #include "thread.h"
 #include "semaphore.h"
+#include "pacman.h"
+#include "ghost.h"
+#include "tela.h"
+#include "input.h"
 
 __BEGIN_API
 
@@ -29,24 +33,32 @@ public:
 
     static void run(void * name) {
         std::cout << (char *) name << ": inicio\n";
-
-        std::string pang_name = "   Pang";
-        std::string peng_name = "       Peng";
-        std::string ping_name = "           Ping";
-        std::string pong_name = "               Pong";
-        //std::string pung_name = "                   Pung";
-        std::string teste_name = "                      teste";
-        std::string toste_name = "                          toste";
-
         
+        Pacman* pacman_obj = new Pacman;
+        Ghost* red_ghost_obj = new Ghost;
+        Ghost* pink_ghost_obj = new Ghost;
+        Ghost* orange_ghost_obj = new Ghost;
+        Ghost* blue_ghost_obj = new Ghost;
+        Tela* tela_obj = new Tela;
+        Input* input_obj = new Input;
 
-        ping_pong_threads[0] = new Thread(body, (char *) pang_name.data(), 0);
-        ping_pong_threads[1] = new Thread(body, (char *) peng_name.data(), 1);
-        ping_pong_threads[2] = new Thread(body, (char *) ping_name.data(), 2);
-        ping_pong_threads[3] = new Thread(body, (char *) pong_name.data(), 3);
-        //ping_pong_threads[4] = new Thread(body, (char *) pung_name.data(), 4);
-        teste_thread = new Thread(body_teste, (char *) teste_name.data(), 5);
-        toste_thread = new Thread(body_toste, (char *) toste_name.data(), 6);
+
+        std::string ghost_name_1 = "   ghost_1";
+        std::string ghost_name_2 = "       ghost_2";
+        std::string ghost_name_3 = "           ghost_3";
+        std::string ghost_name_4 = "               ghost_4";
+        std::string pacman = "                         pacman";
+        std::string input = "                             input";
+        std::string tela = "                                 tela";
+
+        ghost_thread[0] = new Thread(body_ghost, (char *) ghost_name_1.data(), 0, red_ghost_obj);
+        ghost_thread[1] = new Thread(body_ghost, (char *) ghost_name_2.data(), 1, pink_ghost_obj);
+        ghost_thread[2] = new Thread(body_ghost, (char *) ghost_name_3.data(), 2, orange_ghost_obj);
+        ghost_thread[3] = new Thread(body_ghost, (char *) ghost_name_4.data(), 3, blue_ghost_obj);
+
+        pacman_thread = new Thread(body_pacman, (char *) pacman.data(), 5, pacman_obj);
+        input_thread = new Thread(body_input, (char *) input.data(), 6, input_obj);
+        tela_thread = new Thread(body_tela, (char *) tela.data(), 7, tela_obj);
 
         sem = new Semaphore();
 
@@ -56,45 +68,47 @@ public:
         }
 
         int ec;
-        std::cout << "main: esperando Pang...\n";
-        ec = ping_pong_threads[0]->join();
-        std::cout << "main: Pang acabou com exit code " << ec << "\n";
+        std::cout << "main: esperando ghost_1...\n";
+        ec = ghost_thread[0]->join();
+        std::cout << "main: ghost_1 acabou com exit code " << ec << "\n";
 
-        std::cout << "main: esperando Peng...\n";
-        ec = ping_pong_threads[1]->join();
-        std::cout << "main: Peng acabou com exit code " << ec << "\n";
+        std::cout << "main: esperando ghost_2...\n";
+        ec = ghost_thread[1]->join();
+        std::cout << "main: ghost_2 acabou com exit code " << ec << "\n";
 
-        std::cout << "main: esperando Ping...\n";
-        ec = ping_pong_threads[2]->join();
-        std::cout << "main: Ping acabou com exit code " << ec << "\n";
+        std::cout << "main: esperando ghost_3...\n";
+        ec = ghost_thread[2]->join();
+        std::cout << "main: ghost_3 acabou com exit code " << ec << "\n";
 
-        std::cout << "main: esperando Pong...\n";
-        ec = ping_pong_threads[3]->join();
-        std::cout << "main: Pong acabou com exit code " << ec << "\n";
+        std::cout << "main: esperando ghost_4...\n";
+        ec = ghost_thread[3]->join();
+        std::cout << "main: ghost_4 acabou com exit code " << ec << "\n";
 
-        // std::cout << "main: esperando Pung...\n";
-        // ec = ping_pong_threads[4]->join();
-        // std::cout << "main: Pung acabou com exit code " << ec << "\n";
+        std::cout << "main: esperando pacman...\n";
+        ec = pacman_thread->join();
+        std::cout << "main: pacman acabou com exit code " << ec << "\n";
 
-        std::cout << "main: esperando teste...\n";
-        ec = teste_thread->join();
-        std::cout << "main: teste_thread acabou com exit code " << ec << "\n";
+        std::cout << "main: esperando input...\n";
+        ec = input_thread->join();
+        std::cout << "main: input acabou com exit code " << ec << "\n";
 
-        std::cout << "main: esperando toste...\n";
-        ec = toste_thread->join();
-        std::cout << "main: toste_thread acabou com exit code " << ec << "\n";
+        std::cout << "main: esperando tela...\n";
+        ec = tela_thread->join();
+        std::cout << "main: tela acabou com exit code " << ec << "\n";
+
 
 
         std::cout << (char *) name << ": fim\n";
         
         delete sem;
 
-        delete ping_pong_threads[0];
-        delete ping_pong_threads[1];
-        delete ping_pong_threads[2];
-        delete ping_pong_threads[3];
-        //delete ping_pong_threads[4];
-        delete teste_thread;
+        delete ghost_thread[0];
+        delete ghost_thread[1];
+        delete ghost_thread[2];
+        delete ghost_thread[3];
+        delete pacman_thread;
+        delete input_thread;
+        delete tela_thread;
 
         
     }
@@ -105,7 +119,7 @@ private:
 
     static const int ITERATIONS = 10;
 
-    static void body(char *name, int id)
+    static void body_ghost(char *name, int id, Ghost* ghost)
     {
         int i ;
 
@@ -121,10 +135,10 @@ private:
         std::cout << name << ": fim\n";
 
 
-        ping_pong_threads[id]->thread_exit(id);
+        ghost_thread[id]->thread_exit(id);
     }
 
-    static void body_teste(char *name, int id) {
+    static void body_pacman(char *name, int id, Pacman* pacman) {
         int i ;
 
         std::cout << name << ": inicio\n";
@@ -139,10 +153,10 @@ private:
         std::cout << name << ": fim\n";
 
 
-        teste_thread->thread_exit(id);
+        pacman_thread->thread_exit(id);
     }
 
-    static void body_toste(char *name, int id) {
+    static void body_input(char *name, int id, Input* input) {
         int i ;
 
         std::cout << name << ": inicio\n";
@@ -157,14 +171,44 @@ private:
         std::cout << name << ": fim\n";
 
 
-        toste_thread->thread_exit(id);
+        input_thread->thread_exit(id);
+    }
+
+    static void body_tela(char *name, int id, Tela* tela) {
+        int i ;
+
+        std::cout << name << ": inicio\n";
+
+        sem->p();
+        for (i = 0; i < ITERATIONS; i++)
+        {
+            std::cout << name << ": " << i << "\n" ;
+            Thread::yield();
+        }
+        sem->v();
+        std::cout << name << ": fim\n";
+
+
+        tela_thread->thread_exit(id);
     }
 
     private:
-        static Thread *ping_pong_threads[4];
-        static Thread *teste_thread;
-        static Thread *toste_thread;
+        static Thread *ghost_thread[4];
+        static Thread *pacman_thread;
+        static Thread *input_thread;
+        static Thread *tela_thread;
         static Semaphore *sem;
+
+        // Objects
+        static Pacman* pacman_obj;
+        static Ghost* red_ghost_obj;
+        static Ghost* pink_ghost_obj;
+        static Ghost* orange_ghost_obj;
+        static Ghost* blue_ghost_obj;
+        static Tela* tela_obj;
+        static Input* input_obj;
+        
+
 };
 
 __END_API
