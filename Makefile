@@ -11,7 +11,7 @@ LIBS= $(LDLIBS) $(LDFLAGS)
 _DEPS = window.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o window.o
+_OBJ = main.o system.o main_class.o thread.o semaphore.o window.o cpu.o debug.o   
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.c $(DEPS)

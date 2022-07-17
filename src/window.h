@@ -4,6 +4,9 @@
 #include <iostream>
 #include <png.h>
 #include <SFML/Graphics.hpp>
+#include "traits.h"
+
+__BEGIN_API
 
 class Window
 {
@@ -144,5 +147,7 @@ private:
     sf::Texture strawberry_tex;
     sf::Sprite strawberry_sprite;
 };
+
+__END_API
 
 #endif

@@ -1,10 +1,19 @@
-#include "window.h"
+//#include "window.h"
+#include "system.h"
+#include "main_class.h"
+#include "traits.h"
+
+__USING_API
 
 int main(void)
 {
-    Window window;
 
-    window.run();
+    // Iniciar pelo método main
+    System::init(&Main::run);
 
-    return 0;
+
+    // Iniciar window direto a partir do main     
+    // Window window;
+    // window.run();
+    // return 0;
 }

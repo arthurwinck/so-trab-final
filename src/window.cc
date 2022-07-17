@@ -1,5 +1,7 @@
 #include "window.h"
+#include "traits.h"
 
+__BEGIN_API
 
 /**
  * Tile defined as an enum where each type is defined as:
@@ -230,3 +232,5 @@ void Window::load_and_bind_textures()
     strawberry_tex.loadFromFile("sprites/fruits/strawberry.png");
     strawberry_sprite.setTexture(strawberry_tex);
 }
+
+__END_API

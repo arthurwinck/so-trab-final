@@ -17,7 +17,7 @@ CPU::Context Thread::_main_context;
 
 void Thread::thread_exit(int exit_code) {
     //Implementação da destruição da thread
-    db<Thread>(TRC) << "Método thread_exit iniciou execução\n";
+    db<Thread>(TRC) << "Thread " << this->id() <<  " thread_exit iniciou execução\n";
     //Correções - Solução do professor
     this->_state = FINISHING;
     //thread_exit chama o yield
@@ -45,6 +45,9 @@ void Thread::thread_exit(int exit_code) {
 // Mas o objeto que executou foi da thread que vamos esperar
 // Retornar o código de thread exit
 int Thread::join() {
+    std::cout << "Thread " << _running->id() << " irá suspender\n";
+    std::cout << "Thread " << this->id() << " irá executar e após isso retornar\n";
+    //db<Thread>(TRC) << "Thread " << _running->id() << " irá suspender até que thread "  << this->id() << " termine\n";
     this->_suspended_link = _running->_link;
     this->_suspended_bool = 1;
     this->_exit_code = this->id();
@@ -58,18 +61,31 @@ void Thread::suspend() {
     if (this->_state != State::SUSPENDED) {
         this->_state = State::SUSPENDED;
 
+        if (this->id() != 0 && this->id() != 1) {
+            _ready.remove(&this->_link);
+        }
+
         _suspension.insert(&this->_link);
+
+        db<Thread>(TRC) << "Thread " << this->id() << " suspensa deu yield\n";
+        
+        //Thread::yield();
     }
-    Thread::yield();
 }
 
 void Thread::resume(){
-    db<Thread>(TRC) << "Thread está resumindo\n";
-    
-    this->_state = State::READY;
+    db<Thread>(TRC) << "Thread "<< this->id() << " está resumindo\n";
+    if (this->_state != State::SUSPENDED) {
+        this->_state = State::READY;
 
-    _suspension.remove(&this->_link);
-    _ready.insert(&this->_link);
+        _suspension.remove(&this->_link);
+
+        if (this->id() != 0 && this->id() != 1) {
+            _ready.insert(&this->_link);
+
+        }
+    }
+    db<Thread>(TRC) << "Thread " << this->id() << " resumida\n";
 }
 
 /*
@@ -107,6 +123,13 @@ void Thread::init(void (*main)(void *)) {
 void Thread::yield() {
     db<Thread>(TRC) << "Thread iniciou processo de yield\n";
     Thread * prev = Thread::_running;
+    
+    //Teste
+    if (_ready.size() == 0) {
+        db<Thread>(TRC) << "tamanho de _ready "<< _ready.size() << "\n";
+        db<Thread>(TRC) << "item de suspension "<< _suspension.remove()->object()->id() << "\n";
+    }
+
     Thread * next = Thread::_ready.remove()->object();
 
 
@@ -118,6 +141,9 @@ void Thread::yield() {
         prev->_link.rank(now);
         db<Thread>(TRC) << "ID da Thread com timestamp atualizado:" << (*prev).id() << "\n";
     }
+    db<Thread>(TRC) << "yield atualizou timestamps e status\n";
+
+
 
     if (prev != &_main) {
         _ready.insert(&prev->_link);
@@ -128,6 +154,8 @@ void Thread::yield() {
 
     // Muda o estado da próxima thread 
     next->_state = RUNNING;
+    db<Thread>(TRC) << "yield inseriu em ready, mudou o running e seu status e irá trocar contexto\n";
+
 
     switch_context(prev, next);
 }
@@ -192,8 +220,18 @@ void Thread::dispatcher() {
         }
     };
     db<Thread>(TRC) << "Thread dispatcher está terminando\n";
+    
     Thread::_dispatcher._state = State::FINISHING; //Dispatcher em finishing
     Thread::_ready.remove(&Thread::_dispatcher._link); //Remover dispatcher da fila
+    
+    //Teste
+    if (_suspension.size() > 0) {
+        std::cout << "item de suspension quando dispatcher acabou: "<< _suspension.remove()->object()->id() << "\n";
+    }
+    if (_ready.size() > 1) {
+        std::cout << "item de ready quando dispatcher acabou: "<< _ready.remove()->object()->id() << "\n";
+    }
+
     Thread::switch_context(&Thread::_dispatcher, &Thread::_main); //Troca de contexto para main
 
 }
@@ -223,10 +261,15 @@ void Thread::wakeup(Ordered_List<Thread>* _wait) {
 }
 
 void Thread::wakeup_all(Ordered_List<Thread>* _wait) {
-    // Provavelmente existe uma maneira mais elegante de fazer isso
+    //Recoloca todas as threads de volta e só após isso dá o yield
     for (int i=0; i < _wait->size(); i++) {
-        Thread::wakeup(_wait);
+        Thread* waking_thread = _wait->remove_head()->object();
+        db<Thread>(TRC) << "Thread " << waking_thread->id() << " irá acordar\n";
+        waking_thread->_state = State::READY;
+        waking_thread->_wait = 0;
+        _ready.insert(&waking_thread->_link);
     }
+    yield();
 }
 
 Thread::~Thread() {
