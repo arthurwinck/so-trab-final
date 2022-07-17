@@ -18,42 +18,84 @@ __BEGIN_API
 typedef enum {W, G, P, u, o, e, O, E, F} tile;
 
 // 2D array defines the size of the maze and also what each tile contains
-tile maze[28][31] =
-        {
-                {W,W,W,W,W,W,W,W,W,W,W,W,u,u,u,W,P,W,u,u,u,W,W,W,W,W,W,W,W,W,W},
-                {W,o,o,o,o,W,W,O,o,o,o,W,u,u,u,W,u,W,u,u,u,W,o,o,o,o,O,o,o,o,W},
-                {W,o,W,W,o,W,W,o,W,W,o,W,u,u,u,W,u,W,u,u,u,W,o,W,W,o,W,W,W,o,W},
-                {W,o,W,W,o,o,o,o,W,W,o,W,u,u,u,W,u,W,u,u,u,W,o,W,W,o,W,W,W,o,W},
-                {W,o,W,W,o,W,W,W,W,W,o,W,u,u,u,W,u,W,u,u,u,W,o,W,W,o,W,W,W,o,W},
-                {W,o,W,W,o,W,W,W,W,W,o,W,W,W,W,W,u,W,W,W,W,W,o,W,W,o,W,W,W,o,W},
-                {W,o,W,W,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,W},
-                {W,o,W,W,W,W,W,o,W,W,o,W,W,W,W,W,u,W,W,W,W,W,W,W,W,o,W,W,W,o,W},
-                {W,o,W,W,W,W,W,o,W,W,o,W,W,W,W,W,u,W,W,W,W,W,W,W,W,o,W,W,W,o,W},
-                {W,o,W,W,o,o,o,o,W,W,o,u,u,u,u,u,u,u,u,u,W,W,o,o,o,o,W,W,W,o,W},
-                {W,o,W,W,o,W,W,o,W,W,o,W,W,u,W,W,W,W,W,u,W,W,o,W,W,o,W,W,W,o,W},
-                {W,o,W,W,o,W,W,o,W,W,o,W,W,u,W,u,u,u,W,u,W,W,o,W,W,o,W,W,W,o,W},
-                {W,o,o,o,o,W,W,o,o,o,o,W,W,u,W,u,u,u,W,u,u,u,o,W,W,o,o,o,o,o,W},
-                {W,o,W,W,W,W,W,u,W,W,W,W,W,u,W,u,u,u,G,u,W,W,W,W,W,o,W,W,W,W,W},
-                {W,o,W,W,W,W,W,u,W,W,W,W,W,u,W,u,u,u,G,u,W,W,W,W,W,o,W,W,W,W,W},
-                {W,o,o,o,o,W,W,o,o,o,o,W,W,u,W,u,u,u,W,u,u,u,o,W,W,o,o,o,o,o,W},
-                {W,o,W,W,o,W,W,o,W,W,o,W,W,u,W,u,u,u,W,u,W,W,o,W,W,o,W,W,W,o,W},
-                {W,o,W,W,o,W,W,o,W,W,o,W,W,u,W,W,W,W,W,u,W,W,o,W,W,o,W,W,W,o,W},
-                {W,o,W,W,o,o,o,o,W,W,o,u,u,u,u,u,u,u,u,u,W,W,o,o,o,o,W,W,W,o,W},
-                {W,o,W,W,W,W,W,o,W,W,o,W,W,W,W,W,u,W,W,W,W,W,W,W,W,o,W,W,W,o,W},
-                {W,o,W,W,W,W,W,o,W,W,o,W,W,W,W,W,u,W,W,W,W,W,W,W,W,o,W,W,W,o,W},
-                {W,o,W,W,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,W},
-                {W,o,W,W,o,W,W,W,W,W,o,W,W,W,W,W,u,W,W,W,W,W,o,W,W,o,W,W,W,o,W},
-                {W,o,W,W,o,W,W,W,W,W,o,W,u,u,u,W,u,W,u,u,u,W,o,W,W,o,W,W,W,o,W},
-                {W,o,W,W,o,o,o,o,W,W,o,W,u,u,u,W,u,W,u,u,u,W,o,W,W,o,W,W,W,o,W},
-                {W,o,W,W,o,W,W,o,W,W,o,W,u,u,u,W,u,W,u,u,u,W,o,W,W,o,W,W,W,o,W},
-                {W,o,o,o,o,W,W,O,o,o,o,W,u,u,u,W,u,W,u,u,u,W,o,o,o,o,O,o,o,o,W},
-                {W,W,W,W,W,W,W,W,W,W,W,W,u,u,u,W,P,W,u,u,u,W,W,W,W,W,W,W,W,W,W}
-        };
+// tile maze[28][31] =
+//         {
+//                 {W,W,W,W,W,W,W,W,W,W,W,W,u,u,u,W,P,W,u,u,u,W,W,W,W,W,W,W,W,W,W},
+//                 {W,o,o,o,o,W,W,O,o,o,o,W,u,u,u,W,u,W,u,u,u,W,o,o,o,o,O,o,o,o,W},
+//                 {W,o,W,W,o,W,W,o,W,W,o,W,u,u,u,W,u,W,u,u,u,W,o,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,o,o,o,o,W,W,o,W,u,u,u,W,u,W,u,u,u,W,o,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,o,W,W,W,W,W,o,W,u,u,u,W,u,W,u,u,u,W,o,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,o,W,W,W,W,W,o,W,W,W,W,W,u,W,W,W,W,W,o,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,W},
+//                 {W,o,W,W,W,W,W,o,W,W,o,W,W,W,W,W,u,W,W,W,W,W,W,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,W,W,W,o,W,W,o,W,W,W,W,W,u,W,W,W,W,W,W,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,o,o,o,o,W,W,o,u,u,u,u,u,u,u,u,u,W,W,o,o,o,o,W,W,W,o,W},
+//                 {W,o,W,W,o,W,W,o,W,W,o,W,W,u,W,W,W,W,W,u,W,W,o,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,o,W,W,o,W,W,o,W,W,u,W,u,u,u,W,u,W,W,o,W,W,o,W,W,W,o,W},
+//                 {W,o,o,o,o,W,W,o,o,o,o,W,W,u,W,u,u,u,W,u,u,u,o,W,W,o,o,o,o,o,W},
+//                 {W,o,W,W,W,W,W,u,W,W,W,W,W,u,W,u,u,u,G,u,W,W,W,W,W,o,W,W,W,W,W},
+//                 {W,o,W,W,W,W,W,u,W,W,W,W,W,u,W,u,u,u,G,u,W,W,W,W,W,o,W,W,W,W,W},
+//                 {W,o,o,o,o,W,W,o,o,o,o,W,W,u,W,u,u,u,W,u,u,u,o,W,W,o,o,o,o,o,W},
+//                 {W,o,W,W,o,W,W,o,W,W,o,W,W,u,W,u,u,u,W,u,W,W,o,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,o,W,W,o,W,W,o,W,W,u,W,W,W,W,W,u,W,W,o,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,o,o,o,o,W,W,o,u,u,u,u,u,u,u,u,u,W,W,o,o,o,o,W,W,W,o,W},
+//                 {W,o,W,W,W,W,W,o,W,W,o,W,W,W,W,W,u,W,W,W,W,W,W,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,W,W,W,o,W,W,o,W,W,W,W,W,u,W,W,W,W,W,W,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,W},
+//                 {W,o,W,W,o,W,W,W,W,W,o,W,W,W,W,W,u,W,W,W,W,W,o,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,o,W,W,W,W,W,o,W,u,u,u,W,u,W,u,u,u,W,o,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,o,o,o,o,W,W,o,W,u,u,u,W,u,W,u,u,u,W,o,W,W,o,W,W,W,o,W},
+//                 {W,o,W,W,o,W,W,o,W,W,o,W,u,u,u,W,u,W,u,u,u,W,o,W,W,o,W,W,W,o,W},
+//                 {W,o,o,o,o,W,W,O,o,o,o,W,u,u,u,W,u,W,u,u,u,W,o,o,o,o,O,o,o,o,W},
+//                 {W,W,W,W,W,W,W,W,W,W,W,W,u,u,u,W,P,W,u,u,u,W,W,W,W,W,W,W,W,W,W}
+//         };
+
+tile maze[31][28] = {['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W']
+['W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W']
+['W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W']
+['W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W']
+['W', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'W']
+['W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W']
+['W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W']
+['W', 'O', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'O', 'W']
+['W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W']
+['W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W']
+['W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W']
+['W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W']
+['u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u']
+['u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u']
+['u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u']
+['W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'u', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'u', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W']
+['P', 'u', 'u', 'u', 'u', 'u', 'o', 'u', 'u', 'u', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'u', 'u', 'u', 'o', 'u', 'u', 'u', 'u', 'u', 'P']
+['W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'u', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'u', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W']
+['u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'W', 'W', 'W', 'G', 'G', 'W', 'W', 'W', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u']
+['u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'u', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u']
+['u', 'u', 'u', 'u', 'u', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'u', 'u', 'u', 'u', 'u']
+['W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'u', 'W', 'W', 'u', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W']
+['W', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'W']
+['W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W']
+['W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W']
+['W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W']
+['W', 'O', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'O', 'W']
+['W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W']
+['W', 'o', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'W', 'o', 'W', 'W', 'W', 'W', 'o', 'W']
+['W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W', 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W']
+['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W']};
 
 
 Window::Window()
 {
     load_and_bind_textures();
+}
+
+void Window::transpose_tilemap(tile tilemap[28][31]) {
+    tile new_tilemap[31][28];
+    for (int i = 0; i < 28; i++) {
+        for (int j = 0; i < 31; j++) {
+            new_tilemap[i][j] = tilemap[j][i];
+        }
+    }
+    std::cout << new_tilemap;
 }
 
 void Window::draw_texture(unsigned int texture, int length, int height, float angle)

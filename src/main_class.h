@@ -8,8 +8,8 @@
 #include "semaphore.h"
 #include "pacman.h"
 #include "ghost.h"
-#include "tela.h"
 #include "input.h"
+#include "window.h"
 
 __BEGIN_API
 
@@ -39,7 +39,7 @@ public:
         Ghost* pink_ghost_obj = new Ghost;
         Ghost* orange_ghost_obj = new Ghost;
         Ghost* blue_ghost_obj = new Ghost;
-        Tela* tela_obj = new Tela;
+        Window* tela_obj = new Window;
         Input* input_obj = new Input;
 
 
@@ -174,7 +174,7 @@ private:
         input_thread->thread_exit(id);
     }
 
-    static void body_tela(char *name, int id, Tela* tela) {
+    static void body_tela(char *name, int id, Window* tela) {
         int i ;
 
         std::cout << name << ": inicio\n";
