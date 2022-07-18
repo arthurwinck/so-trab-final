@@ -34,6 +34,10 @@ public:
             std::cout << "Keyboard para cima!" << std::endl;
             set_dir(3);
             //return Command::UP;
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+            while (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)){} ;  
+            while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {};
+            while (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)){} ;
         }
         else {
             set_dir(-1);

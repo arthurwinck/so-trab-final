@@ -85,7 +85,7 @@ void Ghost::changetile(int pac_pos_x, int pac_pos_y, char* tilemap){
         } else if ((dir==2) or (dir==3)){
             this->set_pos(this->pos_x,(this->pos_y)-1);
         }
-        this->set_step(7);
+        this->set_step(4);
         this->set_target(pac_pos_x, pac_pos_y, tilemap);
     } else if (this->step>=8){
         if ((dir==0) or (dir==1)){

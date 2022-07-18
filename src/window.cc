@@ -237,9 +237,9 @@ void Window::run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacm
     draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 670, 150, 0, blue_ghost_animate, &window);
     draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 113, 150, 0, yellow_ghost_animate, &window);
     if (ghost_dir==1 || ghost_dir==0) {
-        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , ghost_pos_x*16 +ghost_offset*2, ghost_pos_y*16, ghost_dir, red_ghost_animate, &window);
+        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , ghost_pos_x*16 +ghost_offset*1.3, ghost_pos_y*16, ghost_dir, red_ghost_animate, &window);
     } else {
-        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , ghost_pos_x*16, ghost_pos_y*16 +ghost_offset*2, ghost_dir, red_ghost_animate, &window);
+        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , ghost_pos_x*16, ghost_pos_y*16 +ghost_offset*1.3, ghost_dir, red_ghost_animate, &window);
     };
     /*if (maze[pacman_pos_y*28 + pacman_pos_x]='o'){
         std::cout<< "Uau";
