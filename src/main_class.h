@@ -34,7 +34,7 @@ public:
     static void run(void * name) {
         std::cout << (char *) name << ": inicio\n";
         
-        Pacman* pacman_obj = new Pacman(365, 220);
+        Pacman* pacman_obj = new Pacman(14, 23);
         Ghost* red_ghost_obj = new Ghost;
         Ghost* pink_ghost_obj = new Ghost;
         Ghost* orange_ghost_obj = new Ghost;
