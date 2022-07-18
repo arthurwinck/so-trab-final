@@ -119,7 +119,8 @@ void Window::draw_ghost(unsigned int texture, int length, int height, float angl
 }
 
 
-void Window::run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacman_dir)
+void Window::run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacman_dir,
+    int ghost_pos_x, int ghost_pos_y, int ghost_offset, int ghost_dir)
 {
 
     //sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
@@ -224,7 +225,8 @@ void Window::run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacm
     draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 245, 150, 0, pink_ghost_animate, &window);
     draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 670, 150, 0, blue_ghost_animate, &window);
     draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 113, 150, 0, yellow_ghost_animate, &window);
-    draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 138, 150, 0, red_ghost_animate, &window);
+    
+    draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , ghost_pos_x*16 + ghost_offset, ghost_pos_y*16, 0, red_ghost_animate, &window);
 
     /*if (maze[pacman_pos_y*28 + pacman_pos_x]='o'){
         std::cout<< "Uau";

@@ -17,7 +17,8 @@ public:
 
     int runbool;
 
-    void run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacman_dir);
+    void run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacman_dir,
+    int ghost_pos_x, int ghost_pos_y, int ghost_offset, int ghost_dir);
 
     void draw_texture(unsigned int texture, int length, int height, float angle);
 

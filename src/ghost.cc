@@ -24,6 +24,7 @@ void Ghost::set_target(int pac_pos_x, int pac_pos_y, char* tilemap){
 
 int Ghost::shortest_distance_path(int pac_pos_x, int pac_pos_y, char* tilemap){
     int arr[]={999,999,999,999};
+    std::cout << "access tilemap index: " << pos_y*28+pos_x-1 << "\n"; 
     if (tilemap[pos_y*28 + pos_x - 1] != 'W'){ //tile a esquerda não é parede
         arr[0] = sqrt(pow(((pos_x-1) -pac_pos_x),2) + pow((pos_y-pac_pos_y),2)); 
     } 
@@ -103,6 +104,14 @@ void Ghost::set_step(int step){
 
 int Ghost::get_step(){
     return this->step;
+}
+
+int Ghost::get_pos_x() {
+    return this->pos_x;
+}
+
+int Ghost::get_pos_y() {
+    return this->pos_y;
 }
 
 

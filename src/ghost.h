@@ -5,13 +5,15 @@ __BEGIN_API
 class Ghost
 {
 public:
-    Ghost() {};
+    Ghost(int pos_x, int pos_y) {this->pos_x = pos_x; this->pos_y = pos_y;};
     ~Ghost();
     
     int get_dir();
     void set_dir(int dir);
     
-    int get_pos();
+    int get_pos_x();
+    int get_pos_y();
+
     void set_pos(unsigned int pos_x, unsigned int pos_y);
 
     void set_target(int pac_pos_x, int pac_pos_y, char* tilemap);
