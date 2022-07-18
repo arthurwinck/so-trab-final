@@ -17,7 +17,7 @@ public:
 
     int runbool;
 
-    void run();
+    void run(int pacman_pos_x, int pacman_pos_y);
 
     void draw_texture(unsigned int texture, int length, int height, float angle);
 
@@ -26,11 +26,17 @@ public:
 
     sf::RenderWindow* getWindowobj();
 
+    static char* get_maze() {
+        return Window::maze;
+    }
+
 private:
     void load_and_bind_textures();
 
 
 private:
+
+    static char maze[868];
 
     // Animation lists
     sf::Sprite pacman_animate[3];

@@ -34,7 +34,7 @@ public:
     static void run(void * name) {
         std::cout << (char *) name << ": inicio\n";
         
-        Pacman* pacman_obj = new Pacman;
+        Pacman* pacman_obj = new Pacman(365, 220);
         Ghost* red_ghost_obj = new Ghost;
         Ghost* pink_ghost_obj = new Ghost;
         Ghost* orange_ghost_obj = new Ghost;
@@ -56,9 +56,9 @@ public:
         ghost_thread[2] = new Thread(body_ghost, (char *) ghost_name_3.data(), 2, orange_ghost_obj);
         ghost_thread[3] = new Thread(body_ghost, (char *) ghost_name_4.data(), 3, blue_ghost_obj);
 
-        pacman_thread = new Thread(body_pacman, (char *) pacman.data(), 5, pacman_obj);
+        pacman_thread = new Thread(body_pacman, (char *) pacman.data(), 5, pacman_obj, input_obj, tela_obj);
         input_thread = new Thread(body_input, (char *) input.data(), 6, input_obj, tela_obj);
-        tela_thread = new Thread(body_tela, (char *) tela.data(), 7, tela_obj);
+        tela_thread = new Thread(body_tela, (char *) tela.data(), 7, tela_obj, pacman_obj);
 
         sem = new Semaphore();
 
@@ -138,18 +138,23 @@ private:
         ghost_thread[id]->thread_exit(id);
     }
 
-    static void body_pacman(char *name, int id, Pacman* pacman) {
+    static void body_pacman(char *name, int id, Pacman* pacman, Input* input, Window* tela) {
         int i ;
 
         std::cout << name << ": inicio\n";
 
         sem->p();
-        for (i = 0; i < ITERATIONS; i++)
+        sem->v();
+        
+        //for (i = 0; i < ITERATIONS; i++)
+        while (tela->running()==1)
         {
+            //Proteger sessão crítica
+            pacman->update(input->get_dir(), Window::get_maze());
+
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
-        sem->v();
         std::cout << name << ": fim\n";
 
 
@@ -167,7 +172,7 @@ private:
         //for (i = 0; i < ITERATIONS; i++)
         while (tela->running()==1)
         {
-            command = input->getcommand();
+            input->get_command();
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -178,7 +183,7 @@ private:
         input_thread->thread_exit(id);
     }
 
-    static void body_tela(char *name, int id, Window* tela) {
+    static void body_tela(char *name, int id, Window* tela, Pacman* pacman) {
         int i ;
 
         std::cout << name << ": inicio\n";
@@ -188,7 +193,7 @@ private:
         //for (i = 0; i < ITERATIONS; i++)
         while (tela->running()==1)
         {
-            tela->run();
+            tela->run(pacman->get_pos_x(), pacman->get_pos_y());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }

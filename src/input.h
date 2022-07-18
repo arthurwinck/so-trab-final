@@ -4,7 +4,7 @@
 class Input
 {
 public:
-    Input() {};
+    Input() {dir = 0;};
     ~Input();
 
     enum Command {
@@ -17,25 +17,38 @@ public:
         NONE
     };
 
-    Command getcommand() {
+    void get_command() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
             std::cout << "Keyboard esquerda!" << std::endl;
-            return Command::LEFT;
+            set_dir(0);
+            //return Command::LEFT;
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
             std::cout << "Keyboard direita!" << std::endl;
-            return Command::RIGHT;
+            set_dir(1);
+            //return Command::RIGHT;
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             std::cout << "Keyboard para baixo!" << std::endl;
-            return Command::DOWN;            
+            set_dir(2);
+            //return Command::DOWN;            
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             std::cout << "Keyboard para cima!" << std::endl;
-            return Command::UP;
-        } else {
-            return Command::NONE;
+            set_dir(3);
+            //return Command::UP;
+        }
+        else {
+            set_dir(-1);
+            //return Command::NONE;
         }
 
     }
+
+    int get_dir() {
+        return dir;
+    }
+
+    void set_dir(int dir) {
+        this->dir = dir;
+    }
 private:
-    int vida;
     int dir;
 };
