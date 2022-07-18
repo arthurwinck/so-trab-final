@@ -128,6 +128,9 @@ void Window::draw_ghost(unsigned int texture, int length, int height, int angle,
     }
 }
 
+void Window::draw_pontos(int pacman_pos_x, int pacman_pos_y, sf::RenderWindow* window) {
+
+}
 
 void Window::run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacman_dir,
     int blinky_pos_x, int blinky_pos_y, int blinky_offset, int blinky_dir, int blinky_state,
@@ -143,6 +146,7 @@ void Window::run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacm
 
 
     sf::Event event;
+
     while (window.pollEvent(event))
     {
         switch (event.type) {
@@ -263,11 +267,11 @@ void Window::run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacm
     } else {
         draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , clyde_pos_x*16, clyde_pos_y*16 +clyde_offset*1.3, clyde_dir, yellow_ghost_animate, &window);
     };
-    /*if (maze[pacman_pos_y*28 + pacman_pos_x]='o'){
-        std::cout<< "Uau";
-        maze[pacman_pos_y*28 + pacman_pos_x]='u';
-    }*/
+
+    draw_pontos(pacman_pos_x, pacman_pos_y, &window);
+
     window.display();
+
 
 }
 

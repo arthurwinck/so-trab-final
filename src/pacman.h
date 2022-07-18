@@ -24,6 +24,10 @@ public:
     void update(int dir, char* tilemap);
     void changetile();
     void move(char* tilemap);
+    void set_pontos(int pontos);
+    void inc_pontos();
+    int get_pontos();
+    void check_points(char* tilemap, int pos);
 
 private:
     int dir;
@@ -31,6 +35,7 @@ private:
     int pos_x;
     int pos_y;
     int step;
+    int pontos;
 };
 
 __END_API
