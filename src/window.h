@@ -18,7 +18,10 @@ public:
     int runbool;
 
     void run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacman_dir,
-    int ghost_pos_x, int ghost_pos_y, int ghost_offset, int ghost_dir);
+    int blinky_pos_x, int blinky_pos_y, int blinky_offset, int blinky_dir, int blinky_state,
+    int pinky_pos_x, int pinky_pos_y, int pinky_offset, int pinky_dir, int pinky_state,
+    int inky_pos_x, int inky_pos_y, int inky_offset, int inky_dir, int inky_state,
+    int clyde_pos_x, int clyde_pos_y, int clyde_offset, int clyde_dir, int clyde_state);
 
     void draw_texture(unsigned int texture, int length, int height, float angle);
 

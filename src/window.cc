@@ -130,7 +130,10 @@ void Window::draw_ghost(unsigned int texture, int length, int height, int angle,
 
 
 void Window::run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacman_dir,
-    int ghost_pos_x, int ghost_pos_y, int ghost_offset, int ghost_dir)
+    int blinky_pos_x, int blinky_pos_y, int blinky_offset, int blinky_dir, int blinky_state,
+    int pinky_pos_x, int pinky_pos_y, int pinky_offset, int pinky_dir, int pinky_state,
+    int inky_pos_x, int inky_pos_y, int inky_offset, int inky_dir, int inky_state,
+    int clyde_pos_x, int clyde_pos_y, int clyde_offset, int clyde_dir, int clyde_state)
 {
 
     //sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
@@ -233,13 +236,32 @@ void Window::run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacm
     }
     
     draw_pacman(((int) clock.getElapsedTime().asMilliseconds()/200) % 3 , pacman_pos_x, pacman_pos_y, pacman_rotation, &window);
-    draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 245, 150, 0, pink_ghost_animate, &window);
-    draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 670, 150, 0, blue_ghost_animate, &window);
-    draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 113, 150, 0, yellow_ghost_animate, &window);
-    if (ghost_dir==1 || ghost_dir==0) {
-        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , ghost_pos_x*16 +ghost_offset*1.3, ghost_pos_y*16, ghost_dir, red_ghost_animate, &window);
+
+
+
+
+    if (blinky_dir==1 || blinky_dir==0) {
+        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , blinky_pos_x*16 +blinky_offset*1.3, blinky_pos_y*16, blinky_dir, red_ghost_animate, &window);
     } else {
-        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , ghost_pos_x*16, ghost_pos_y*16 +ghost_offset*1.3, ghost_dir, red_ghost_animate, &window);
+        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , blinky_pos_x*16, blinky_pos_y*16 +blinky_offset*1.3, blinky_dir, red_ghost_animate, &window);
+    };
+
+    if (pinky_dir==1 || pinky_dir==0) {
+        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , pinky_pos_x*16 +pinky_offset*1.3, pinky_pos_y*16, pinky_dir, pink_ghost_animate, &window);
+    } else {
+        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , pinky_pos_x*16, pinky_pos_y*16 +pinky_offset*1.3, pinky_dir, pink_ghost_animate, &window);
+    };
+
+    if (inky_dir==1 || inky_dir==0) {
+        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , inky_pos_x*16 +inky_offset*1.3, inky_pos_y*16, inky_dir, blue_ghost_animate, &window);
+    } else {
+        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , inky_pos_x*16, inky_pos_y*16 +inky_offset*1.3, inky_dir, blue_ghost_animate, &window);
+    };
+
+    if (clyde_dir==1 || clyde_dir==0) {
+        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , clyde_pos_x*16 +clyde_offset*1.3, clyde_pos_y*16, clyde_dir, yellow_ghost_animate, &window);
+    } else {
+        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , clyde_pos_x*16, clyde_pos_y*16 +clyde_offset*1.3, clyde_dir, yellow_ghost_animate, &window);
     };
     /*if (maze[pacman_pos_y*28 + pacman_pos_x]='o'){
         std::cout<< "Uau";

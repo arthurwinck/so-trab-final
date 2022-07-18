@@ -35,10 +35,10 @@ public:
         std::cout << (char *) name << ": inicio\n";
         
         Pacman* pacman_obj = new Pacman(14, 23);
-        Ghost* red_ghost_obj = new Ghost(10, 20);
-        Ghost* pink_ghost_obj = new Ghost(16, 20);
-        Ghost* orange_ghost_obj = new Ghost(19, 20);
-        Ghost* blue_ghost_obj = new Ghost(20, 20);
+        Ghost* red_ghost_obj = new Ghost(10, 20,0);
+        Ghost* pink_ghost_obj = new Ghost(16, 20,1);
+        Ghost* orange_ghost_obj = new Ghost(19, 20,3);
+        Ghost* blue_ghost_obj = new Ghost(20, 20,3);
         Window* tela_obj = new Window;
         Input* input_obj = new Input;
 
@@ -53,12 +53,12 @@ public:
 
         ghost_thread[0] = new Thread(body_ghost, (char *) ghost_name_1.data(), 0, red_ghost_obj,pacman_obj,tela_obj);
         ghost_thread[1] = new Thread(body_ghost, (char *) ghost_name_2.data(), 1, pink_ghost_obj,pacman_obj,tela_obj);
-        ghost_thread[2] = new Thread(body_ghost, (char *) ghost_name_3.data(), 2, orange_ghost_obj,pacman_obj, tela_obj);
-        ghost_thread[3] = new Thread(body_ghost, (char *) ghost_name_4.data(), 3, blue_ghost_obj,pacman_obj,tela_obj);
+        ghost_thread[2] = new Thread(body_ghost, (char *) ghost_name_3.data(), 2, blue_ghost_obj,pacman_obj, tela_obj);
+        ghost_thread[3] = new Thread(body_ghost, (char *) ghost_name_4.data(), 3, orange_ghost_obj,pacman_obj,tela_obj);
 
         pacman_thread = new Thread(body_pacman, (char *) pacman.data(), 5, pacman_obj, input_obj, tela_obj);
         input_thread = new Thread(body_input, (char *) input.data(), 6, input_obj, tela_obj);
-        tela_thread = new Thread(body_tela, (char *) tela.data(), 7, tela_obj, pacman_obj, red_ghost_obj);
+        tela_thread = new Thread(body_tela, (char *) tela.data(), 7, tela_obj, pacman_obj, red_ghost_obj, pink_ghost_obj, blue_ghost_obj, orange_ghost_obj);
 
         sem = new Semaphore();
 
@@ -135,7 +135,7 @@ private:
         {
 //            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
             ghost->move();
-            ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
+            ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(),pacman->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -194,7 +194,7 @@ private:
     }
 
     //Usar const e & no ponteiro --
-    static void body_tela(char *name, int id, Window* tela, Pacman* pacman, Ghost* ghost) {
+    static void body_tela(char *name, int id, Window* tela, Pacman* pacman, Ghost* blinky, Ghost* pinky, Ghost* inky, Ghost* clyde) {
         int i ;
 
         std::cout << name << ": inicio\n";
@@ -205,8 +205,11 @@ private:
         while (tela->running()==1)
         {
                 
-            tela->run(pacman->get_pos_x(), pacman->get_pos_y(),pacman->get_step() ,pacman->get_dir(), ghost->get_pos_x(),
-            ghost->get_pos_y(), ghost->get_step(), ghost->get_dir());
+            tela->run(pacman->get_pos_x(), pacman->get_pos_y(),pacman->get_step() ,pacman->get_dir(),
+            blinky->get_pos_x(),blinky->get_pos_y(), blinky->get_step(), blinky->get_dir(), blinky->get_state(),
+            pinky->get_pos_x(),pinky->get_pos_y(), pinky->get_step(), pinky->get_dir(), pinky->get_state(),
+            inky->get_pos_x(),inky->get_pos_y(), inky->get_step(), inky->get_dir(), inky->get_state(),
+            clyde->get_pos_x(),clyde->get_pos_y(), clyde->get_step(), clyde->get_dir(), clyde->get_state());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }

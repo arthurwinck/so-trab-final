@@ -17,26 +17,38 @@ int Ghost::get_dir() {
 }
 
 void Ghost::set_target(int pac_pos_x, int pac_pos_y, char* tilemap){
-    this->set_dir(this->shortest_distance_path(pac_pos_x, pac_pos_y, tilemap));
+    switch (this->type){
+        case 0:this->set_dir(this->shortest_distance_path(pac_pos_x, pac_pos_y, tilemap,0,0));
+
+        case 3: 
+            if  (abs(pos_y-1 - pac_pos_y) + abs(pos_x - pac_pos_x) < 8){
+                this->set_dir(this->shortest_distance_path(0, 31, tilemap,0,0));
+            } else {
+                this->set_dir(this->shortest_distance_path(pac_pos_x, pac_pos_y, tilemap,0,0));
+            }
+    }
+    //this->set_dir(this->shortest_distance_path(pac_pos_x, pac_pos_y, tilemap));
 
 }
 
+int Ghost::get_state(){
+    return this->state;
+}
 
-int Ghost::shortest_distance_path(int pac_pos_x, int pac_pos_y, char* tilemap){
+int Ghost::shortest_distance_path(int pac_pos_x, int pac_pos_y, char* tilemap, int offset_x, int offset_y){
     int arr[]={999,999,999,999};
-    std::cout<< "teste10";
-    std::cout << "access tilemap index: " << pos_y*28+pos_x-1 << "\n"; 
+    //std::cout << "access tilemap index: " << pos_y*28+pos_x-1 << "\n"; 
     if ((tilemap[pos_y*28 + pos_x - 1] != 'W') && (this->get_dir()!=1)){ //tile a esquerda não é parede
-        arr[0] = abs(pos_y - pac_pos_y) + abs(pos_x-1 - pac_pos_x); 
+        arr[0] = abs(pos_y - pac_pos_y + offset_y) + abs(pos_x-1 - pac_pos_x+offset_x); 
     } 
     if ((tilemap[pos_y*28 + pos_x + 1] != 'W') && (this->get_dir()!=0)) { //tile a direita não parede
-        arr[1] = abs(pos_y - pac_pos_y) + abs(pos_x+1 - pac_pos_x); 
+        arr[1] = abs(pos_y - pac_pos_y + offset_y) + abs(pos_x+1 - pac_pos_x + offset_x); 
     }
     if ((tilemap[(pos_y + 1)*28 + pos_x] != 'W') && (this->get_dir()!=3)) { //tile abaixo não parede
-        arr[2] = abs(pos_y+1 - pac_pos_y) + abs(pos_x - pac_pos_x); 
+        arr[2] = abs(pos_y+1 - pac_pos_y + offset_y) + abs(pos_x - pac_pos_x + offset_x); 
     }
     if ((tilemap[(pos_y-1)*28 + pos_x] != 'W') && (this->get_dir()!=2)){ //tile acima não parede
-        arr[3] = abs(pos_y-1 - pac_pos_y) + abs(pos_x - pac_pos_x); 
+        arr[3] = abs(pos_y-1 - pac_pos_y + offset_y) + abs(pos_x - pac_pos_x + offset_x); 
     }
     int dist= arr[0]; //path vai ser o menor caminho
     int path= 0;
@@ -61,7 +73,6 @@ void Ghost::dec_step(){
 }
 
 void Ghost::move(){
-    std::cout<<dir;
     switch (dir){
         case 0:
             this->dec_step();
@@ -78,7 +89,9 @@ void Ghost::move(){
     }
 }
 
-void Ghost::changetile(int pac_pos_x, int pac_pos_y, char* tilemap){
+
+
+void Ghost::changetile(int pac_pos_x, int pac_pos_y,int pac_dir, char* tilemap){
     if (this->step<=0){
         if ((dir==0) or (dir==1)){
             this->set_pos((this->pos_x)-1,this->pos_y);
