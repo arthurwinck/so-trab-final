@@ -1,6 +1,6 @@
 #include "window.h"
 #include "traits.h"
-
+#include <chrono>
 __BEGIN_API
 
 /**
@@ -84,7 +84,8 @@ char Window::maze[868] = {'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
     'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'};
 
 sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
-
+auto start_time = std::chrono::high_resolution_clock::now();
+auto end_time = std::chrono::high_resolution_clock::now();
 Window::Window()
 {   
     runbool=1;
@@ -105,7 +106,7 @@ void Window::draw_texture(unsigned int texture, int length, int height, float an
 
 void Window::draw_pacman(unsigned int texture, int length, int height, float angle, sf::RenderWindow* window) {
     this->pacman_animate[texture].setPosition(length, height);
-    this->pacman_animate[texture].rotate(angle);
+    this->pacman_animate[texture].setRotation(angle);
     window->draw(pacman_animate[texture]);
 }
 
@@ -118,7 +119,7 @@ void Window::draw_ghost(unsigned int texture, int length, int height, float angl
 }
 
 
-void Window::run(int pacman_pos_x, int pacman_pos_y)
+void Window::run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacman_dir)
 {
 
     //sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
@@ -204,12 +205,31 @@ void Window::run(int pacman_pos_x, int pacman_pos_y)
 
     // Função para desenhar personagens na tela - Usamos o clock do SFML para saber qual sprite vamos blitar
     // Lembrar de mudar para posição inicial e atualizar
-    draw_pacman(((int) clock.getElapsedTime().asMilliseconds()/200) % 3 , pacman_pos_x, pacman_pos_y, 0, &window);
+    while(1){
+        
+        end_time = std::chrono::high_resolution_clock::now();
+        if (end_time>start_time+std::chrono::milliseconds(100)){
+            start_time=std::chrono::high_resolution_clock::now();
+            break;
+        }
+    }
+
+    switch (pacman_dir){
+        case 0: pacman_rotation=0;pacman_pos_x=pacman_pos_x*16 + pacman_offset;pacman_pos_y*=16;break;
+        case 1: pacman_rotation=180;pacman_pos_x=pacman_pos_x*16 + pacman_offset;pacman_pos_y= pacman_pos_y * 16 + 15;break;
+        case 2: pacman_rotation=270;pacman_pos_y=pacman_pos_y*16 + pacman_offset;pacman_pos_x*=16;break;
+        case 3: pacman_rotation=90;pacman_pos_y=pacman_pos_y*16 + pacman_offset;pacman_pos_x=pacman_pos_x *16 + 15;break;
+    }
+    draw_pacman(((int) clock.getElapsedTime().asMilliseconds()/200) % 3 , pacman_pos_x, pacman_pos_y, pacman_rotation, &window);
     draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 245, 150, 0, pink_ghost_animate, &window);
     draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 670, 150, 0, blue_ghost_animate, &window);
     draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 113, 150, 0, yellow_ghost_animate, &window);
     draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 138, 150, 0, red_ghost_animate, &window);
 
+    /*if (maze[pacman_pos_y*28 + pacman_pos_x]='o'){
+        std::cout<< "Uau";
+        maze[pacman_pos_y*28 + pacman_pos_x]='u';
+    }*/
     window.display();
 
 }

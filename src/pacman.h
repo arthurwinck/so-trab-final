@@ -17,14 +17,20 @@ public:
     int get_pos_x();
     int get_pos_y();
     void set_pos(unsigned int pos_x, unsigned int pos_y);
-
+    void set_step(int step);
+    int get_step();
+    void inc_step();
+    void dec_step();
     void update(int dir, char* tilemap);
+    void changetile();
+    void move(char* tilemap);
 
 private:
     int dir;
     int vida;
     int pos_x;
     int pos_y;
+    int step;
 };
 
 __END_API

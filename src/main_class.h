@@ -51,10 +51,10 @@ public:
         std::string input = "                             input";
         std::string tela = "                                 tela";
 
-        ghost_thread[0] = new Thread(body_ghost, (char *) ghost_name_1.data(), 0, red_ghost_obj);
-        ghost_thread[1] = new Thread(body_ghost, (char *) ghost_name_2.data(), 1, pink_ghost_obj);
-        ghost_thread[2] = new Thread(body_ghost, (char *) ghost_name_3.data(), 2, orange_ghost_obj);
-        ghost_thread[3] = new Thread(body_ghost, (char *) ghost_name_4.data(), 3, blue_ghost_obj);
+        ghost_thread[0] = new Thread(body_ghost, (char *) ghost_name_1.data(), 0, red_ghost_obj,pacman_obj,tela_obj);
+        ghost_thread[1] = new Thread(body_ghost, (char *) ghost_name_2.data(), 1, pink_ghost_obj,pacman_obj,tela_obj);
+        ghost_thread[2] = new Thread(body_ghost, (char *) ghost_name_3.data(), 2, orange_ghost_obj,pacman_obj, tela_obj);
+        ghost_thread[3] = new Thread(body_ghost, (char *) ghost_name_4.data(), 3, blue_ghost_obj,pacman_obj,tela_obj);
 
         pacman_thread = new Thread(body_pacman, (char *) pacman.data(), 5, pacman_obj, input_obj, tela_obj);
         input_thread = new Thread(body_input, (char *) input.data(), 6, input_obj, tela_obj);
@@ -119,19 +119,26 @@ private:
 
     static const int ITERATIONS = 10;
 
-    static void body_ghost(char *name, int id, Ghost* ghost)
+    static void body_ghost(char *name, int id, Ghost* ghost, Pacman* pacman, Window* tela)
     {
         int i ;
-
+        int pac_x;
+        int pac_y;
         std::cout << name << ": inicio\n";
 
-        sem->p();
-        for (i = 0; i < ITERATIONS; i++)
+        //sem->p();
+        //pac_x = pacman->get_pos_x();
+        //pac_y = pacman->get_pos_y();
+        //for (i = 0; i < ITERATIONS; i++)
+        while (tela->running()==1)
         {
+            //ghost->set_target(pac_x,pac_y, Window::get_maze());
+            //ghost->move();
+            //ghost->changetile();
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
-        sem->v();
+        //sem->v();
         std::cout << name << ": fim\n";
 
 
@@ -151,6 +158,8 @@ private:
         {
             //Proteger sessão crítica
             pacman->update(input->get_dir(), Window::get_maze());
+            pacman->move(Window::get_maze());
+            pacman->changetile();
 
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
@@ -193,7 +202,8 @@ private:
         //for (i = 0; i < ITERATIONS; i++)
         while (tela->running()==1)
         {
-            tela->run(pacman->get_pos_x(), pacman->get_pos_y());
+                
+            tela->run(pacman->get_pos_x(), pacman->get_pos_y(),pacman->get_step() ,pacman->get_dir());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }

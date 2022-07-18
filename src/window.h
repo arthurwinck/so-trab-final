@@ -17,7 +17,7 @@ public:
 
     int runbool;
 
-    void run(int pacman_pos_x, int pacman_pos_y);
+    void run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacman_dir);
 
     void draw_texture(unsigned int texture, int length, int height, float angle);
 
@@ -25,7 +25,11 @@ public:
     void draw_ghost(unsigned int texture, int length, int height, float angle, sf::Sprite sprite_list[2], sf::RenderWindow* window);
 
     sf::RenderWindow* getWindowobj();
-
+    int pacman_rotation;
+    int blinky_rotation;
+    int pinky_rotation;
+    int inky_rotation;
+    int clyde_rotation;
     static char* get_maze() {
         return Window::maze;
     }
