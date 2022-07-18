@@ -6,7 +6,8 @@ Pacman::Pacman(int pos_x, int pos_y) {
     this->pos_x = pos_x;
     this->pos_y = pos_y;
     dir = 0;
-    step=5;
+    step= 5;
+    pontos = 0;
 }
 
 void Pacman::set_pos(unsigned int pos_x, unsigned int pos_y) {
@@ -37,20 +38,60 @@ void Pacman::dec_step(){
     this->step-=2;
 }
 
+void Pacman::set_pontos(int pontos) {
+    this->pontos = pontos;
+}
+
+int Pacman::get_pontos() {
+    return this->pontos;
+}
+
+void Pacman::inc_pontos() {
+    this->set_pontos(this->get_pontos()+1);
+}
+
+void Pacman::check_points(char* tilemap, int pos) {
+    switch (tilemap[pos]) {
+        case 'o':
+            inc_pontos();
+
+        // É necessário que os fantasmas sejam atualizados para fugirem
+        case 'O':
+            //status de poder comer os fantasmas
+            inc_pontos();
+
+        tilemap[pos] = 'e';
+        std::cout << "Pontos: " << get_pontos();
+
+    }   
+}
+
 void Pacman::move(char* tilemap){
     std::cout<<dir;
     switch (dir){
         case 0:
-            if (tilemap[pos_y*28 + pos_x - 1] != 'W') {this->dec_step();;};
+            if (tilemap[pos_y*28 + pos_x - 1] != 'W') {
+                this->check_points(tilemap, pos_y*28 + pos_x - 1);
+                this->dec_step();
+                };
             break;
         case 1:
-            if (tilemap[pos_y*28 + pos_x + 1] != 'W') {this->inc_step();};
+            if (tilemap[pos_y*28 + pos_x + 1] != 'W') {
+                this->check_points(tilemap, pos_y*28 + pos_x + 1);
+                this->inc_step();
+                };
             break;
         case 2:
-            if (tilemap[(pos_y + 1)*28 + pos_x] != 'W') {this->inc_step();};
+            if (tilemap[(pos_y + 1)*28 + pos_x] != 'W') {
+                this->check_points(tilemap, (pos_y + 1)*28 + pos_x);
+                this->inc_step();
+                };
             break;
         case 3:
-            if (tilemap[(pos_y-1)*28 + pos_x] != 'W') {this->dec_step();};
+            if (tilemap[(pos_y-1)*28 + pos_x] != 'W') {
+                this->check_points(tilemap, (pos_y-1)*28 + pos_x);
+                this->dec_step();
+                };
             break;
     }
 }
@@ -92,6 +133,9 @@ void Pacman::update(int newdir, char* tilemap) {
     if (newdir == 0) {
         std::cout << "Vou ir para a esquerda!";
         if (tilemap[pos_y*28 + pos_x - 1] != 'W') {
+            if (tilemap[pos_y*28 + pos_x - 1] == 'o') {
+                
+            }
             this->set_dir(newdir);
         }
         std::cout << "Fui para a esquerda!";

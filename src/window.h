@@ -28,6 +28,8 @@ public:
     void draw_pacman(unsigned int texture, int length, int height, float angle, sf::RenderWindow* window);
     void draw_ghost(unsigned int texture, int length, int height, int angle, sf::Sprite sprite_list[2], sf::RenderWindow* window);
 
+    void draw_pontos(int pacman_pos_x, int pacman_pos_y, sf::RenderWindow* window);
+
     sf::RenderWindow* getWindowobj();
     int pacman_rotation;
     int blinky_rotation;
