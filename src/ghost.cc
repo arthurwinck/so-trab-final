@@ -24,42 +24,40 @@ void Ghost::set_target(int pac_pos_x, int pac_pos_y, char* tilemap){
 
 int Ghost::shortest_distance_path(int pac_pos_x, int pac_pos_y, char* tilemap){
     int arr[]={999,999,999,999};
+    std::cout<< "teste10";
     std::cout << "access tilemap index: " << pos_y*28+pos_x-1 << "\n"; 
-    if (tilemap[pos_y*28 + pos_x - 1] != 'W'){ //tile a esquerda não é parede
-        arr[0] = sqrt(pow(((pos_x-1) -pac_pos_x),2) + pow((pos_y-pac_pos_y),2)); 
+    if ((tilemap[pos_y*28 + pos_x - 1] != 'W') && (this->get_dir()!=1)){ //tile a esquerda não é parede
+        arr[0] = abs(pos_y - pac_pos_y) + abs(pos_x-1 - pac_pos_x); 
     } 
-    if (tilemap[pos_y*28 + pos_x + 1] != 'W') { //tile a direita não parede
-        arr[1] = sqrt(pow(((pos_x+1) -pac_pos_x),2) + pow((pos_y-pac_pos_y),2));
+    if ((tilemap[pos_y*28 + pos_x + 1] != 'W') && (this->get_dir()!=0)) { //tile a direita não parede
+        arr[1] = abs(pos_y - pac_pos_y) + abs(pos_x+1 - pac_pos_x); 
     }
-    if (tilemap[(pos_y + 1)*28 + pos_x] != 'W') { //tile abaixo não parede
-        arr[2] = sqrt(pow(((pos_x) -pac_pos_x),2) + pow(((pos_y+1)-pac_pos_y),2));
+    if ((tilemap[(pos_y + 1)*28 + pos_x] != 'W') && (this->get_dir()!=3)) { //tile abaixo não parede
+        arr[2] = abs(pos_y+1 - pac_pos_y) + abs(pos_x - pac_pos_x); 
     }
-    if (tilemap[(pos_y-1)*28 + pos_x] != 'W'){ //tile acima não parede
-        arr[3] = sqrt(pow(((pos_x) -pac_pos_x),2) + pow(((pos_y-1)-pac_pos_y),2));
+    if ((tilemap[(pos_y-1)*28 + pos_x] != 'W') && (this->get_dir()!=2)){ //tile acima não parede
+        arr[3] = abs(pos_y-1 - pac_pos_y) + abs(pos_x - pac_pos_x); 
     }
-    int path= arr[0]; //path vai ser o menor caminho
+    int dist= arr[0]; //path vai ser o menor caminho
+    int path= 0;
     for ( int i = 1; i < 4; i++ ) {
-        if ( path > arr[i] ) {
-            path = arr[i];
+        if ( dist > arr[i] ) {
+            dist = arr[i];
+            path=i;
         }
-    }
-    for ( int i = 1; i < 4; i++ ) {
-        if ( path = arr[i] ) {
-            return i; //achar posição/direção com menor caminho
-        }
+    };
+    return path;
 
-    }
-    return 0;
+    };
 
 
-}
 
 void Ghost::inc_step(){
-    this->step+=2;
+    this->step+=1;
 }
 
 void Ghost::dec_step(){
-    this->step-=2;
+    this->step-=1;
 }
 
 void Ghost::move(){
@@ -80,7 +78,7 @@ void Ghost::move(){
     }
 }
 
-void Ghost::changetile(){
+void Ghost::changetile(int pac_pos_x, int pac_pos_y, char* tilemap){
     if (this->step<=0){
         if ((dir==0) or (dir==1)){
             this->set_pos((this->pos_x)-1,this->pos_y);
@@ -88,6 +86,7 @@ void Ghost::changetile(){
             this->set_pos(this->pos_x,(this->pos_y)-1);
         }
         this->set_step(7);
+        this->set_target(pac_pos_x, pac_pos_y, tilemap);
     } else if (this->step>=8){
         if ((dir==0) or (dir==1)){
             this->set_pos((this->pos_x)+1,this->pos_y);
@@ -95,6 +94,7 @@ void Ghost::changetile(){
             this->set_pos(this->pos_x,(this->pos_y)+1);
         }
         this->set_step(4);
+        this->set_target(pac_pos_x, pac_pos_y, tilemap);
     }
 }
 

@@ -23,7 +23,7 @@ public:
     void draw_texture(unsigned int texture, int length, int height, float angle);
 
     void draw_pacman(unsigned int texture, int length, int height, float angle, sf::RenderWindow* window);
-    void draw_ghost(unsigned int texture, int length, int height, float angle, sf::Sprite sprite_list[2], sf::RenderWindow* window);
+    void draw_ghost(unsigned int texture, int length, int height, int angle, sf::Sprite sprite_list[2], sf::RenderWindow* window);
 
     sf::RenderWindow* getWindowobj();
     int pacman_rotation;

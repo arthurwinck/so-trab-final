@@ -110,12 +110,22 @@ void Window::draw_pacman(unsigned int texture, int length, int height, float ang
     window->draw(pacman_animate[texture]);
 }
 
-void Window::draw_ghost(unsigned int texture, int length, int height, float angle, sf::Sprite sprite_list[2], sf::RenderWindow* window) {
+void Window::draw_ghost(unsigned int texture, int length, int height, int angle, sf::Sprite sprite_list[2], sf::RenderWindow* window) {
     sprite_list[texture].setPosition(length, height);
-    sprite_list[texture].rotate(angle);
-    this->eye_left_sprite.setPosition(length, height);
+    //sprite_list[texture].rotate(angle);
+    switch (angle) {
+        case 0: this->eye_left_sprite.setPosition(length, height);break;
+        case 1: this->eye_right_sprite.setPosition(length, height);break;
+        case 2: this->eye_down_sprite.setPosition(length, height);break;
+        case 3: this->eye_up_sprite.setPosition(length, height);break;
+    }
     window->draw(sprite_list[texture]);
-    window->draw(eye_left_sprite);
+        switch (angle) {
+        case 0: window->draw(eye_left_sprite);break;
+        case 1: window->draw(eye_right_sprite);break;
+        case 2: window->draw(eye_down_sprite);break;
+        case 3: window->draw(eye_up_sprite);break;
+    }
 }
 
 
@@ -221,13 +231,16 @@ void Window::run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacm
         case 2: pacman_rotation=270;pacman_pos_y=pacman_pos_y*16 + pacman_offset;pacman_pos_x*=16;break;
         case 3: pacman_rotation=90;pacman_pos_y=pacman_pos_y*16 + pacman_offset;pacman_pos_x=pacman_pos_x *16 + 15;break;
     }
+    
     draw_pacman(((int) clock.getElapsedTime().asMilliseconds()/200) % 3 , pacman_pos_x, pacman_pos_y, pacman_rotation, &window);
     draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 245, 150, 0, pink_ghost_animate, &window);
     draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 670, 150, 0, blue_ghost_animate, &window);
     draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 113, 150, 0, yellow_ghost_animate, &window);
-    
-    draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , ghost_pos_x*16 + ghost_offset, ghost_pos_y*16, 0, red_ghost_animate, &window);
-
+    if (ghost_dir==1 || ghost_dir==0) {
+        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , ghost_pos_x*16 +ghost_offset*2, ghost_pos_y*16, ghost_dir, red_ghost_animate, &window);
+    } else {
+        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , ghost_pos_x*16, ghost_pos_y*16 +ghost_offset*2, ghost_dir, red_ghost_animate, &window);
+    };
     /*if (maze[pacman_pos_y*28 + pacman_pos_x]='o'){
         std::cout<< "Uau";
         maze[pacman_pos_y*28 + pacman_pos_x]='u';

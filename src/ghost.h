@@ -5,7 +5,7 @@ __BEGIN_API
 class Ghost
 {
 public:
-    Ghost(int pos_x, int pos_y) {this->pos_x = pos_x; this->pos_y = pos_y;};
+    Ghost(int pos_x, int pos_y) {this->pos_x = pos_x; this->pos_y = pos_y; this->dir = 0; this->step = 4;};
     ~Ghost();
     
     int get_dir();
@@ -22,7 +22,7 @@ public:
     int get_step();
     void inc_step();
     void dec_step();
-    void changetile();
+    void changetile(int pac_pos_x, int pac_pos_y, char* tilemap);
     void move();
 private:
     int dir;
