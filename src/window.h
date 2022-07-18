@@ -17,7 +17,7 @@ public:
 
     int runbool;
 
-    void run();
+    void run(int pacmangrid, int pacmandir, int pacstep, int redgrid, int pinkgrid, int bluegrid, int orangegrid);
 
     void draw_texture(unsigned int texture, int length, int height, float angle);
 

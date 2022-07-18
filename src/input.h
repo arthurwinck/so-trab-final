@@ -17,25 +17,40 @@ public:
         NONE
     };
 
+    int getinputdir() {
+        switch (dir){
+            case Command::LEFT:
+                return 1;
+            case Command::RIGHT:
+                return 3;
+            case Command::UP:
+                return 4;
+            case Command::DOWN:
+                return 2;
+        }
+        return 0;
+    }
+
     Command getcommand() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
             std::cout << "Keyboard esquerda!" << std::endl;
-            return Command::LEFT;
+            dir= Command::LEFT;
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
             std::cout << "Keyboard direita!" << std::endl;
-            return Command::RIGHT;
+            dir= Command::RIGHT;
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             std::cout << "Keyboard para baixo!" << std::endl;
-            return Command::DOWN;            
+            dir= Command::DOWN;            
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             std::cout << "Keyboard para cima!" << std::endl;
-            return Command::UP;
+            dir= Command::UP;
         } else {
-            return Command::NONE;
+            dir= Command::NONE;
         }
+        return dir;
 
     }
 private:
     int vida;
-    int dir;
+    Command dir;
 };

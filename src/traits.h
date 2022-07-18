@@ -33,7 +33,7 @@ template<> struct Traits<CPU> : public Traits<void> {
 };
 
 template<> struct Traits<Thread> : public Traits<void> {
-    static const bool debugged = false;
+    static const bool debugged = true;
 };
 
 template<> struct Traits<Lists> : public Traits<void> {

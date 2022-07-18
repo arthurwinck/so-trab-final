@@ -56,9 +56,9 @@ public:
         ghost_thread[2] = new Thread(body_ghost, (char *) ghost_name_3.data(), 2, orange_ghost_obj);
         ghost_thread[3] = new Thread(body_ghost, (char *) ghost_name_4.data(), 3, blue_ghost_obj);
 
-        pacman_thread = new Thread(body_pacman, (char *) pacman.data(), 5, pacman_obj);
+        pacman_thread = new Thread(body_pacman, (char *) pacman.data(), 5, pacman_obj,input_obj, tela_obj);
         input_thread = new Thread(body_input, (char *) input.data(), 6, input_obj, tela_obj);
-        tela_thread = new Thread(body_tela, (char *) tela.data(), 7, tela_obj);
+        tela_thread = new Thread(body_tela, (char *) tela.data(), 7, tela_obj, pacman_obj);
 
         sem = new Semaphore();
 
@@ -126,30 +126,35 @@ private:
         std::cout << name << ": inicio\n";
 
         sem->p();
+        
         for (i = 0; i < ITERATIONS; i++)
         {
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
-        sem->v();
+
         std::cout << name << ": fim\n";
 
 
         ghost_thread[id]->thread_exit(id);
     }
 
-    static void body_pacman(char *name, int id, Pacman* pacman) {
+    static void body_pacman(char *name, int id, Pacman* pacman, Input* input, Window* tela) {
         int i ;
-
+        int direction;
         std::cout << name << ": inicio\n";
-
         sem->p();
-        for (i = 0; i < ITERATIONS; i++)
+        direction= input->getinputdir();
+        sem->v();
+        //for (i = 0; i < ITERATIONS; i++)
+        std::cout<<"Ahoy";
+        while (tela->running()==1)
         {
+            pacman->updatepacman(direction);
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
-        sem->v();
+
         std::cout << name << ": fim\n";
 
 
@@ -178,17 +183,23 @@ private:
         input_thread->thread_exit(id);
     }
 
-    static void body_tela(char *name, int id, Window* tela) {
+    static void body_tela(char *name, int id, Window* tela, Pacman* pacman) {
         int i ;
+        int pacmandir;
+        int pacmangrid;
+        int pacstep;
 
         std::cout << name << ": inicio\n";
 
         sem->p();
+        pacmandir = pacman->getdir();
+        pacmangrid = pacman->getgrid();
+        pacstep = pacman->getstep();
         sem->v();
         //for (i = 0; i < ITERATIONS; i++)
         while (tela->running()==1)
         {
-            tela->run();
+            tela->run(pacmangrid, pacmandir, pacstep, 50, 50, 50 , 50);
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
