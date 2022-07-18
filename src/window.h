@@ -13,6 +13,10 @@ class Window
 public:
     Window();
 
+    int running();
+
+    int runbool;
+
     void run();
 
     void draw_texture(unsigned int texture, int length, int height, float angle);
@@ -20,11 +24,14 @@ public:
     void draw_pacman(unsigned int texture, int length, int height, float angle, sf::RenderWindow* window);
     void draw_ghost(unsigned int texture, int length, int height, float angle, sf::Sprite sprite_list[2], sf::RenderWindow* window);
 
+    sf::RenderWindow* getWindowobj();
+
 private:
     void load_and_bind_textures();
 
 
 private:
+
     // Animation lists
     sf::Sprite pacman_animate[3];
     sf::Sprite red_ghost_animate[2];

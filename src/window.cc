@@ -83,13 +83,21 @@ char maze[868] = {'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W
 'W', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'W',
 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'};
 
+sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
 
 Window::Window()
 {
+    runbool=1;
     load_and_bind_textures();
 }
 
+int Window::running(){
+    return Window::runbool;
+}
 
+sf::RenderWindow * Window::getWindowobj() {
+    return &window;
+}
 
 void Window::draw_texture(unsigned int texture, int length, int height, float angle)
 {
@@ -114,57 +122,60 @@ void Window::draw_ghost(unsigned int texture, int length, int height, float angl
 
 void Window::run()
 {
-    sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
+    //sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
     //Link: https://www.sfml-dev.org/tutorials/2.5/window-events.php
     //https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Keyboard.php
     window.setKeyRepeatEnabled(false);
 
-    while (window.isOpen())
+
+    sf::Event event;
+    while (window.pollEvent(event))
     {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            switch (event.type) {
-            case sf::Event::Closed:
-                 window.close();
-                 break;
-            
-            // key pressed
-            case sf::Event::KeyPressed:
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    std::cout << "Keyboard esquerda!" << std::endl;
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    std::cout << "Keyboard direita!" << std::endl;
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    std::cout << "Keyboard para baixo!" << std::endl;
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                    std::cout << "Keyboard para cima!" << std::endl;
-                } else
-                    std::cout << "Keyboard pressed = " << event.key.code << std::endl;
+        switch (event.type) {
+        case sf::Event::Closed:
+                window.close();
+                runbool=0;
                 break;
-            
-            }
         }
-        window.clear();
-        window.draw(maze_sprite);
+    }
+    //    
+    //    // key pressed
+    //    case sf::Event::KeyPressed:
+    //        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+    //            std::cout << "Keyboard esquerda!" << std::endl;
+    //        } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+    //            std::cout << "Keyboard direita!" << std::endl;
+    //        } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+    //            std::cout << "Keyboard para baixo!" << std::endl;
+    //        } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+    //            std::cout << "Keyboard para cima!" << std::endl;
+    //        } else
+    //            std::cout << "Keyboard pressed = " << event.key.code << std::endl;
+    //        break;
+    //    
+    //    }
+    //}
+    window.clear();
+    window.draw(maze_sprite);
 
 
 
 //rendereriza pontos
-        div_t position;
-        for (int tile=0; tile<868;tile++) {
-            if (maze[tile]=='o'){
-                position = div (tile,28);
-                //Vetor de 28x31=868 posições usado como "grid"
-                //calculo de pos(x): 16x (Tile Mod 28) + (offset de 3 se quiser deixar mais bonito)
-                //calculo de pos(y): (Tile//28) * 16
-                pill_sprite.setPosition ((position.rem) * 16 + 3 ,(position.quot) * 16 );
-                window.draw(pill_sprite);
-            }
-                
+    div_t position;
+    for (int tile=0; tile<868;tile++) {
+        if (maze[tile]=='o'){
+            position = div (tile,28);
+            //Vetor de 28x31=868 posições usado como "grid"
+            //calculo de pos(x): 16x (Tile Mod 28) + (offset de 3 se quiser deixar mais bonito)
+            //calculo de pos(y): (Tile//28) * 16
+            pill_sprite.setPosition ((position.rem) * 16 + 3 ,(position.quot) * 16 );
+            window.draw(pill_sprite);
         }
+            
+    }
 
 //renderiza os 4 energizadores
+    if ((((int) clock.getElapsedTime().asMilliseconds()/300) % 2) == 1) {
         if (maze[138]=='O'){
                 position = div (138,28);
                 bigPill_sprite.setPosition ((position.rem) * 16 + 3,(int)(position.quot) * 16 );
@@ -188,19 +199,20 @@ void Window::run()
                 bigPill_sprite.setPosition ((position.rem) * 16 + 3,(int)(position.quot) * 16 );
                 window.draw(bigPill_sprite);
         }
-
-        window.draw(pill_sprite);
-
-        // Função para desenhar personagens na tela - Usamos o clock do SFML para saber qual sprite vamos blitar
-        // Lembrar de mudar para posição inicial e atualizar
-        draw_pacman(((int) clock.getElapsedTime().asMilliseconds()/200) % 3 , 220, 365, 0, &window);
-        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 245, 150, 0, pink_ghost_animate, &window);
-        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 670, 150, 0, blue_ghost_animate, &window);
-        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 113, 150, 0, yellow_ghost_animate, &window);
-        draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 138, 150, 0, red_ghost_animate, &window);
-
-        window.display();
     }
+
+    window.draw(pill_sprite);
+
+    // Função para desenhar personagens na tela - Usamos o clock do SFML para saber qual sprite vamos blitar
+    // Lembrar de mudar para posição inicial e atualizar
+    draw_pacman(((int) clock.getElapsedTime().asMilliseconds()/200) % 3 , 220, 365, 0, &window);
+    draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 245, 150, 0, pink_ghost_animate, &window);
+    draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 670, 150, 0, blue_ghost_animate, &window);
+    draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 113, 150, 0, yellow_ghost_animate, &window);
+    draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , 138, 150, 0, red_ghost_animate, &window);
+
+    window.display();
+
 }
 
 void Window::load_and_bind_textures()

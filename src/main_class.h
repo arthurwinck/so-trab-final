@@ -57,7 +57,7 @@ public:
         ghost_thread[3] = new Thread(body_ghost, (char *) ghost_name_4.data(), 3, blue_ghost_obj);
 
         pacman_thread = new Thread(body_pacman, (char *) pacman.data(), 5, pacman_obj);
-        input_thread = new Thread(body_input, (char *) input.data(), 6, input_obj);
+        input_thread = new Thread(body_input, (char *) input.data(), 6, input_obj, tela_obj);
         tela_thread = new Thread(body_tela, (char *) tela.data(), 7, tela_obj);
 
         sem = new Semaphore();
@@ -156,18 +156,22 @@ private:
         pacman_thread->thread_exit(id);
     }
 
-    static void body_input(char *name, int id, Input* input) {
+    static void body_input(char *name, int id, Input* input, Window* tela) {
         int i ;
+        Input::Command command;
 
         std::cout << name << ": inicio\n";
 
         sem->p();
-        for (i = 0; i < ITERATIONS; i++)
+        sem->v();
+        //for (i = 0; i < ITERATIONS; i++)
+        while (tela->running()==1)
         {
+            command = input->getcommand();
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
-        sem->v();
+
         std::cout << name << ": fim\n";
 
 
@@ -178,16 +182,18 @@ private:
         int i ;
 
         std::cout << name << ": inicio\n";
-        tela->run();
+
         sem->p();
-        for (i = 0; i < ITERATIONS; i++)
+        sem->v();
+        //for (i = 0; i < ITERATIONS; i++)
+        while (tela->running()==1)
         {
+            tela->run();
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
-        sem->v();
-        std::cout << name << ": fim\n";
 
+        std::cout << name << ": fim\n";
 
         tela_thread->thread_exit(id);
     }
