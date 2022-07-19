@@ -9,7 +9,7 @@ __BEGIN_API
 class Ghost
 {
 public:
-    Ghost(int pos_x, int pos_y, int type) {this->pos_x = pos_x; this->pos_y = pos_y; this->dir = 0; this->step = 4; this->type=type; this->state=1;};
+    Ghost(int pos_x, int pos_y, int type) {this->pos_x = pos_x; this->pos_y = pos_y; this->dir = 0; this->step = 4; this->type=type; this->state=6; this-> state_timer= (type-1)*33;};
     ~Ghost();
     
     int get_dir();
@@ -28,7 +28,7 @@ public:
     
     void move(int energized);
     int get_state();
-    void state_update();
+    void state_update(int pac_x, int pac_y);
     
     virtual void set_target(int pac_pos_x, int pac_pos_y, char* tilemap);
     virtual void changetile(int pac_pos_x, int pac_pos_y, int pac_dir, char* tilemap);
