@@ -131,7 +131,7 @@ void Ghost::move(int energized){
 
 
 
-void Ghost::changetile(int pac_pos_x, int pac_pos_y, char* tilemap){
+void Ghost::changetile(int pac_pos_x, int pac_pos_y, int pac_dir, char* tilemap){
     if (this->step<=0){
         if ((dir==0) or (dir==1)){
             this->set_pos((this->pos_x)-1,this->pos_y);

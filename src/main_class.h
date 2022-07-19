@@ -36,10 +36,10 @@ public:
         std::cout << (char *) name << ": inicio\n";
         
         Pacman* pacman_obj = new Pacman(14, 23);
-        Ghost* red_ghost_obj = new Blinky(10, 20,0);
-        Ghost* pink_ghost_obj = new Ghost(16, 20,1);
-        Ghost* orange_ghost_obj = new Ghost(19, 20,3);
-        Ghost* blue_ghost_obj = new Ghost(20, 20,3);
+        Blinky* red_ghost_obj = new Blinky(10, 20,0);
+        Pinky* pink_ghost_obj = new Pinky(16, 20,1);
+        Inky* blue_ghost_obj = new Inky(20, 20,3);
+        Clyde* orange_ghost_obj = new Clyde(19, 20,3);
         Window* tela_obj = new Window;
         Input* input_obj = new Input;
 
@@ -52,10 +52,10 @@ public:
         std::string input = "                             input";
         std::string tela = "                                 tela";
 
-        ghost_thread[0] = new Thread(body_ghost, (char *) ghost_name_1.data(), 0, red_ghost_obj,pacman_obj,tela_obj);
-        ghost_thread[1] = new Thread(body_ghost, (char *) ghost_name_2.data(), 1, pink_ghost_obj,pacman_obj,tela_obj);
-        ghost_thread[2] = new Thread(body_ghost, (char *) ghost_name_3.data(), 2, blue_ghost_obj,pacman_obj, tela_obj);
-        ghost_thread[3] = new Thread(body_ghost, (char *) ghost_name_4.data(), 3, orange_ghost_obj,pacman_obj,tela_obj);
+        ghost_thread[0] = new Thread(body_blinky, (char *) ghost_name_1.data(), 0, red_ghost_obj,pacman_obj,tela_obj);
+        ghost_thread[1] = new Thread(body_pinky, (char *) ghost_name_2.data(), 1, pink_ghost_obj,pacman_obj,tela_obj);
+        ghost_thread[2] = new Thread(body_inky, (char *) ghost_name_3.data(), 2, blue_ghost_obj, red_ghost_obj, pacman_obj, tela_obj);
+        ghost_thread[3] = new Thread(body_clyde, (char *) ghost_name_4.data(), 3, orange_ghost_obj,pacman_obj,tela_obj);
 
         pacman_thread = new Thread(body_pacman, (char *) pacman.data(), 5, pacman_obj, input_obj, tela_obj);
         input_thread = new Thread(body_input, (char *) input.data(), 6, input_obj, tela_obj);
@@ -121,7 +121,7 @@ private:
     static const int ITERATIONS = 10;
 
     // Trocar
-    static void body_ghost(char *name, int id, Ghost* ghost, Pacman* pacman, Window* tela)
+    static void body_blinky(char *name, int id, Blinky* ghost, Pacman* pacman, Window* tela)
     {
         int i ;
         int pac_x;
@@ -138,6 +138,87 @@ private:
             ghost->move(pacman->energized());
             ghost->state_update();
             ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(),pacman->get_dir(), Window::get_maze());
+            std::cout << name << ": " << i << "\n" ;
+            Thread::yield();
+        }
+        //sem->v();
+        std::cout << name << ": fim\n";
+
+
+        ghost_thread[id]->thread_exit(id);
+    }
+
+    static void body_pinky(char *name, int id, Pinky* ghost, Pacman* pacman, Window* tela)
+    {
+        int i ;
+        int pac_x;
+        int pac_y;
+        std::cout << name << ": inicio\n";
+
+        //sem->p();
+        //pac_x = pacman->get_pos_x();
+        //pac_y = pacman->get_pos_y();
+        //for (i = 0; i < ITERATIONS; i++)
+        while (tela->running()==1)
+        {
+//            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
+            ghost->move(pacman->energized());
+            ghost->state_update();
+            ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(),pacman->get_dir(), Window::get_maze());
+            std::cout << name << ": " << i << "\n" ;
+            Thread::yield();
+        }
+        //sem->v();
+        std::cout << name << ": fim\n";
+
+
+        ghost_thread[id]->thread_exit(id);
+    }
+
+    static void body_clyde(char *name, int id, Clyde* ghost, Pacman* pacman, Window* tela)
+    {
+        int i ;
+        int pac_x;
+        int pac_y;
+        std::cout << name << ": inicio\n";
+
+        //sem->p();
+        //pac_x = pacman->get_pos_x();
+        //pac_y = pacman->get_pos_y();
+        //for (i = 0; i < ITERATIONS; i++)
+        while (tela->running()==1)
+        {
+//            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
+            ghost->move(pacman->energized());
+            ghost->state_update();
+            ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(),pacman->get_dir(), Window::get_maze());
+            std::cout << name << ": " << i << "\n" ;
+            Thread::yield();
+        }
+        //sem->v();
+        std::cout << name << ": fim\n";
+
+
+        ghost_thread[id]->thread_exit(id);
+    }
+
+    static void body_inky(char *name, int id, Inky* ghost, Blinky* blinky, Pacman* pacman, Window* tela)
+    {
+        int i ;
+        int pac_x;
+        int pac_y;
+        std::cout << name << ": inicio\n";
+
+        //sem->p();
+        //pac_x = pacman->get_pos_x();
+        //pac_y = pacman->get_pos_y();
+        //for (i = 0; i < ITERATIONS; i++)
+        while (tela->running()==1)
+        {
+//            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
+            ghost->move(pacman->energized());
+            ghost->state_update();
+            ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(), blinky->get_pos_x(), blinky->get_pos_y(), pacman->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -196,7 +277,7 @@ private:
     }
 
     //Usar const e & no ponteiro --
-    static void body_tela(char *name, int id, Window* tela, Pacman* pacman, Ghost* blinky, Ghost* pinky, Ghost* inky, Ghost* clyde) {
+    static void body_tela(char *name, int id, Window* tela, Pacman* pacman, Blinky* blinky, Pinky* pinky, Inky* inky, Clyde* clyde) {
         int i ;
 
         std::cout << name << ": inicio\n";
