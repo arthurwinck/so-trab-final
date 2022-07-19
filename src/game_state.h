@@ -15,9 +15,20 @@ __BEGIN_API
 class Game_State
 {
 public:
+    Game_State() {};
     Game_State(Pacman* pacman, Blinky* blinky, Pinky* pinky,
-                Inky* inky, Clyde* clyde, Input* input, Window* window);
-    ~Game_State();
+                Inky* inky, Clyde* clyde, Input* input, Window* window) 
+                {
+                        this->pacman = pacman;
+                        this->blinky = blinky;
+                        this->pinky = pinky;
+                        this->inky = inky;
+                        this->clyde = clyde;
+                        this->input = input;
+                        this->window = window;
+                }
+    ~Game_State() {};
+    
 private:
     Pacman* pacman;
     Blinky* blinky;
