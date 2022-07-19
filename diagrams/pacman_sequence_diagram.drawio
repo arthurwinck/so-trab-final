@@ -1,0 +1,87 @@
+<mxfile host="65bd71144e">
+    <diagram id="5A05ZmzQna_nABxJGc6W" name="Page-1">
+        <mxGraphModel dx="609" dy="1332" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="3" value="Main_Class" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+                    <mxGeometry x="210" y="-10" width="100" height="410" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="3">
+                    <mxGeometry x="45" y="90" width="10" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="&amp;nbsp;pacman = new Pacman()" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="3" target="9">
+                    <mxGeometry x="-0.1632" y="10" width="80" relative="1" as="geometry">
+                        <mxPoint x="60" y="100" as="sourcePoint"/>
+                        <mxPoint x="140" y="100" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="19" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="3">
+                    <mxGeometry x="45" y="240" width="10" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="pacman-&amp;gt;update()" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="3" target="9">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="60" y="270" as="sourcePoint"/>
+                        <mxPoint x="140" y="270" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9" value="Pacman" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="-10" width="100" height="410" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="9">
+                    <mxGeometry x="45" y="100" width="10" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="9">
+                    <mxGeometry x="45" y="270" width="10" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="pacman-&amp;gt;move(window)" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="9">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="-74.5" y="300" as="sourcePoint"/>
+                        <mxPoint x="45.000000000000114" y="300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="27" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="9">
+                    <mxGeometry x="45" y="300" width="10" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="Thread" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;" vertex="1" parent="1">
+                    <mxGeometry x="470" y="-10" width="100" height="310" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="13">
+                    <mxGeometry x="45" y="160" width="10" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="13">
+                    <mxGeometry x="45" y="230" width="10" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="thread_pacman = new Thread()" style="html=1;verticalAlign=bottom;endArrow=block;exitX=1.049;exitY=0.887;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="5" target="13">
+                    <mxGeometry x="0.3752" y="10" width="80" relative="1" as="geometry">
+                        <mxPoint x="265" y="150" as="sourcePoint"/>
+                        <mxPoint x="480" y="150" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                        <Array as="points">
+                            <mxPoint x="270" y="160"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="18" value="body_pacman()" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1" source="15" target="3">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="300" y="190" as="sourcePoint"/>
+                        <mxPoint x="380" y="190" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="370" y="230"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="23" value="main_class-&amp;gt;run()" style="html=1;verticalAlign=bottom;startArrow=circle;startFill=1;endArrow=open;startSize=6;endSize=8;" edge="1" parent="1" target="3">
+                    <mxGeometry width="80" relative="1" as="geometry">
+                        <mxPoint x="100" y="80" as="sourcePoint"/>
+                        <mxPoint x="180" y="100" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="120" y="80"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

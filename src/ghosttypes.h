@@ -1,5 +1,10 @@
+#ifndef ghosttypes_h
+#define ghosttypes_h
+
+
 #include "ghost.h"
 #include "traits.h"
+
 
 __BEGIN_API
 
@@ -150,6 +155,6 @@ public:
     }
 };
 
-
-
 __END_API
+
+#endif
