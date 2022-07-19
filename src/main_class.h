@@ -139,8 +139,8 @@ private:
         {
 //            gamestate->get_blinky()->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
             gamestate->get_blinky()->move(gamestate->get_pacman()->energized());
-            gamestate->get_blinky()->state_update(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y());
-            gamestate->get_blinky()->changetile(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(),gamestate->get_pacman()->get_dir(), Window::get_maze());
+            gamestate->get_blinky()->state_update(gamestate->get_pacman_pos_x(),gamestate->get_pacman_pos_y());
+            gamestate->get_blinky()->changetile(gamestate->get_pacman_pos_x(),gamestate->get_pacman_pos_y(),gamestate->get_pacman()->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -159,15 +159,15 @@ private:
         std::cout << name << ": inicio\n";
 
         //sem->p();
-        //pac_x = gamestate->get_pacman()->get_pos_x();
-        //pac_y = gamestate->get_pacman()->get_pos_y();
+        //pac_x = gamestate->get_pacman_pos_x();
+        //pac_y = gamestate->get_pacman_pos_y();
         //for (i = 0; i < ITERATIONS; i++)
         while (gamestate->get_window()->running()==1)
         {
-//            gamestate->get_pinky()->set_target(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(), Window::get_maze());
+//            gamestate->get_pinky()->set_target(gamestate->get_pacman_pos_x(),gamestate->get_pacman_pos_y(), Window::get_maze());
             gamestate->get_pinky()->move(gamestate->get_pacman()->energized());
-            gamestate->get_pinky()->state_update(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y());
-            gamestate->get_pinky()->changetile(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(),gamestate->get_pacman()->get_dir(), Window::get_maze());
+            gamestate->get_pinky()->state_update(gamestate->get_pacman_pos_x(),gamestate->get_pacman_pos_y());
+            gamestate->get_pinky()->changetile(gamestate->get_pacman_pos_x(),gamestate->get_pacman_pos_y(),gamestate->get_pacman()->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -186,15 +186,15 @@ private:
         std::cout << name << ": inicio\n";
 
         //sem->p();
-        //pac_x = gamestate->get_pacman()->get_pos_x();
-        //pac_y = gamestate->get_pacman()->get_pos_y();
+        //pac_x = gamestate->get_pacman_pos_x();
+        //pac_y = gamestate->get_pacman_pos_y();
         //for (i = 0; i < ITERATIONS; i++)
         while (gamestate->get_window()->running()==1)
         {
-//            gamestate->get_clyde()->set_target(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(), Window::get_maze());
+//            gamestate->get_clyde()->set_target(gamestate->get_pacman_pos_x(),gamestate->get_pacman_pos_y(), Window::get_maze());
             gamestate->get_clyde()->move(gamestate->get_pacman()->energized());
-            gamestate->get_clyde()->state_update(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y());
-            gamestate->get_clyde()->changetile(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(),gamestate->get_pacman()->get_dir(), Window::get_maze());
+            gamestate->get_clyde()->state_update(gamestate->get_pacman_pos_x(),gamestate->get_pacman_pos_y());
+            gamestate->get_clyde()->changetile(gamestate->get_pacman_pos_x(),gamestate->get_pacman_pos_y(),gamestate->get_pacman()->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -213,15 +213,15 @@ private:
         std::cout << name << ": inicio\n";
 
         //sem->p();
-        //pac_x = gamestate->get_pacman()->get_pos_x();
-        //pac_y = gamestate->get_pacman()->get_pos_y();
+        //pac_x = gamestate->get_pacman_pos_x();
+        //pac_y = gamestate->get_pacman_pos_y();
         //for (i = 0; i < ITERATIONS; i++)
         while (gamestate->get_window()->running()==1)
         {
-//            gamestate->get_inky()->set_target(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(), Window::get_maze());
+//            gamestate->get_inky()->set_target(gamestate->get_pacman_pos_x(),gamestate->get_pacman_pos_y(), Window::get_maze());
             gamestate->get_inky()->move(gamestate->get_pacman()->energized());
-            gamestate->get_inky()->state_update(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y());
-            gamestate->get_inky()->changetile(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(), gamestate->get_blinky()->get_pos_x(), gamestate->get_blinky()->get_pos_y(), gamestate->get_pacman()->get_dir(), Window::get_maze());
+            gamestate->get_inky()->state_update(gamestate->get_pacman_pos_x(),gamestate->get_pacman_pos_y());
+            gamestate->get_inky()->changetile(gamestate->get_pacman_pos_x(),gamestate->get_pacman_pos_y(), gamestate->get_blinky()->get_pos_x(), gamestate->get_blinky()->get_pos_y(), gamestate->get_pacman()->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -291,7 +291,7 @@ private:
         while (gamestate->get_window()->running()==1)
         {
                 
-            gamestate->get_window()->run(gamestate->get_pacman()->get_pos_x(), gamestate->get_pacman()->get_pos_y(),gamestate->get_pacman()->get_step() ,gamestate->get_pacman()->get_dir(),
+            gamestate->get_window()->run(gamestate->get_pacman_pos_x(), gamestate->get_pacman_pos_y(),gamestate->get_pacman()->get_step() ,gamestate->get_pacman()->get_dir(),
             gamestate->get_blinky()->get_pos_x(),gamestate->get_blinky()->get_pos_y(), gamestate->get_blinky()->get_step(), gamestate->get_blinky()->get_dir(), gamestate->get_blinky()->get_state(),
             gamestate->get_pinky()->get_pos_x(),gamestate->get_pinky()->get_pos_y(), gamestate->get_pinky()->get_step(), gamestate->get_pinky()->get_dir(), gamestate->get_pinky()->get_state(),
             gamestate->get_inky()->get_pos_x(),gamestate->get_inky()->get_pos_y(), gamestate->get_inky()->get_step(), gamestate->get_inky()->get_dir(), gamestate->get_inky()->get_state(),

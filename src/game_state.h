@@ -8,6 +8,7 @@
 #include "ghosttypes.h"
 #include "input.h"
 #include "window.h"
+#include "semaphore.h"
 
 #include <cmath>
 __BEGIN_API
@@ -27,6 +28,7 @@ public:
                         this->window = window;
                 };
     ~Game_State() {};
+    
 private:
     Pacman* pacman;
     Blinky* blinky;
@@ -36,8 +38,47 @@ private:
     Input* input;
     Window* window;
 
+    Semaphore* sem_pacman;
+    Semaphore* sem_blinky;
+    Semaphore* sem_pinky;
+    Semaphore* sem_inky;
+    Semaphore* sem_clyde;
+    Semaphore* sem_input;
+    Semaphore* sem_window;
+    
 public:
     Pacman* get_pacman() {return pacman;};
+
+    int get_pacman_pos_x() {
+        sem_pacman->p();
+        int pos_x = get_pacman()->get_pos_x();
+        sem_pacman->v();
+        return pos_x;       
+    };
+
+    int get_pacman_pos_y() {
+        sem_pacman->p();
+        int pos_y = get_pacman()->get_pos_y();
+        sem_pacman->v();
+        return pos_y;
+    };
+
+    int set_pacman_pos_y() {
+        sem_pacman->p();
+        int pos_y = get_pacman()->get_pos_y();
+        sem_pacman->v();
+        return pos_y;
+    };
+
+    // int set_pacman_pos_y() {
+    //     sem_pacman->p();
+    //     int pos_y = get_pacman()->get_pos_y();
+    //     sem_pacman->v();
+    //     return pos_y;
+    // };
+
+
+
     Blinky* get_blinky() {return blinky;};
     Pinky* get_pinky() {return pinky;};
     Inky* get_inky() {return inky;};

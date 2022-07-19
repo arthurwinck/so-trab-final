@@ -2,6 +2,8 @@
 #define pacman_h
 
 #include "traits.h"
+#include "semaphore.h"
+
 __BEGIN_API
 class Pacman
 {
@@ -38,6 +40,7 @@ private:
     int step;
     int pontos;
     int isEnergized;
+    Semaphore* sem;
 };
 
 __END_API
