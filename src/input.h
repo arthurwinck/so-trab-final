@@ -1,5 +1,11 @@
+#ifndef input_h
+#define input_h
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "traits.h"
+
+__BEGIN_API
 
 class Input
 {
@@ -56,3 +62,7 @@ public:
 private:
     int dir;
 };
+
+__END_API
+
+#endif

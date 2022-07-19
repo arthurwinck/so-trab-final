@@ -11,6 +11,7 @@
 #include "input.h"
 #include "ghosttypes.h"
 #include "window.h"
+#include "game_state.h"
 
 __BEGIN_API
 
@@ -43,7 +44,9 @@ public:
         Window* tela_obj = new Window;
         Input* input_obj = new Input;
 
-    
+        Game_State* game_state = new Game_State(pacman_obj, red_ghost_obj, pink_ghost_obj,
+        blue_ghost_obj, orange_ghost_obj, input_obj, tela_obj);
+
         std::string ghost_name_1 = "   ghost_1";
         std::string ghost_name_2 = "       ghost_2";
         std::string ghost_name_3 = "           ghost_3";
