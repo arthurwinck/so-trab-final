@@ -134,7 +134,8 @@ private:
         while (tela->running()==1)
         {
 //            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
-            ghost->move();
+            ghost->move(pacman->energized());
+            ghost->state_update();
             ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(),pacman->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();

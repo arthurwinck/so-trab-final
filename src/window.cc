@@ -128,6 +128,14 @@ void Window::draw_ghost(unsigned int texture, int length, int height, int angle,
     }
 }
 
+void Window::draw_scaredghost(unsigned int texture, int length, int height, sf::Sprite sprite_list[2], sf::RenderWindow* window) {
+    sprite_list[texture].setPosition(length, height);
+    window->draw(sprite_list[texture]);
+
+}
+
+
+
 void Window::draw_pontos(int pacman_pos_x, int pacman_pos_y, sf::RenderWindow* window) {
 
 }
@@ -243,26 +251,41 @@ void Window::run(int pacman_pos_x, int pacman_pos_y, int pacman_offset, int pacm
 
 
 
-
-    if (blinky_dir==1 || blinky_dir==0) {
+    if (blinky_state==3){
+        draw_scaredghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , blinky_pos_x*16 +blinky_offset*1.3, blinky_pos_y*16, scared_ghost_animate, &window);
+    } else if (blinky_state==4){
+        draw_scaredghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 4 , blinky_pos_x*16 +blinky_offset*1.3, blinky_pos_y*16, flashing_ghost_animate, &window);
+    } else if (blinky_dir==1 || blinky_dir==0) {
         draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , blinky_pos_x*16 +blinky_offset*1.3, blinky_pos_y*16, blinky_dir, red_ghost_animate, &window);
     } else {
         draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , blinky_pos_x*16, blinky_pos_y*16 +blinky_offset*1.3, blinky_dir, red_ghost_animate, &window);
     };
 
-    if (pinky_dir==1 || pinky_dir==0) {
+    if (pinky_state==3){
+        draw_scaredghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , pinky_pos_x*16 +pinky_offset*1.3, pinky_pos_y*16, scared_ghost_animate, &window);
+    } else if (pinky_state==4){
+        draw_scaredghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 4 , pinky_pos_x*16 +pinky_offset*1.3, pinky_pos_y*16, flashing_ghost_animate, &window);
+    } else if (pinky_dir==1 || pinky_dir==0) {
         draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , pinky_pos_x*16 +pinky_offset*1.3, pinky_pos_y*16, pinky_dir, pink_ghost_animate, &window);
     } else {
         draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , pinky_pos_x*16, pinky_pos_y*16 +pinky_offset*1.3, pinky_dir, pink_ghost_animate, &window);
     };
 
-    if (inky_dir==1 || inky_dir==0) {
+    if (inky_state==3){
+        draw_scaredghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , inky_pos_x*16 +inky_offset*1.3, inky_pos_y*16, scared_ghost_animate, &window);
+    } else if (inky_state==4){
+        draw_scaredghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 4 , inky_pos_x*16 +inky_offset*1.3, inky_pos_y*16, flashing_ghost_animate, &window);
+    } else if (inky_dir==1 || inky_dir==0) {
         draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , inky_pos_x*16 +inky_offset*1.3, inky_pos_y*16, inky_dir, blue_ghost_animate, &window);
     } else {
         draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , inky_pos_x*16, inky_pos_y*16 +inky_offset*1.3, inky_dir, blue_ghost_animate, &window);
     };
 
-    if (clyde_dir==1 || clyde_dir==0) {
+    if (clyde_state==3){
+        draw_scaredghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , clyde_pos_x*16 +clyde_offset*1.3, clyde_pos_y*16, scared_ghost_animate, &window);
+    } else if (clyde_state==4){
+        draw_scaredghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 4 , clyde_pos_x*16 +clyde_offset*1.3, clyde_pos_y*16, flashing_ghost_animate, &window);
+    } else if (clyde_dir==1 || clyde_dir==0) {
         draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , clyde_pos_x*16 +clyde_offset*1.3, clyde_pos_y*16, clyde_dir, yellow_ghost_animate, &window);
     } else {
         draw_ghost(((int) clock.getElapsedTime().asMilliseconds()/200) % 2 , clyde_pos_x*16, clyde_pos_y*16 +clyde_offset*1.3, clyde_dir, yellow_ghost_animate, &window);
@@ -418,6 +441,14 @@ void Window::load_and_bind_textures()
 
     yellow_ghost_animate[0] = ghost_y_0_sprite;
     yellow_ghost_animate[1] = ghost_y_1_sprite;
+
+    scared_ghost_animate[0] = ghost_scared_0_sprite;
+    scared_ghost_animate[1] = ghost_scared_1_sprite;
+
+    flashing_ghost_animate[0] = ghost_scared_0_sprite;
+    flashing_ghost_animate[1] = ghost_scared_2_sprite;
+    flashing_ghost_animate[2] = ghost_scared_3_sprite;
+    flashing_ghost_animate[3] = ghost_scared_1_sprite;
 
     
 }

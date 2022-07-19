@@ -8,6 +8,7 @@ Pacman::Pacman(int pos_x, int pos_y) {
     dir = 0;
     step= 5;
     pontos = 0;
+    isEnergized=0;
 }
 
 void Pacman::set_pos(unsigned int pos_x, unsigned int pos_y) {
@@ -54,11 +55,15 @@ void Pacman::check_points(char* tilemap, int pos) {
     switch (tilemap[pos]) {
         case 'o':
             inc_pontos();
-
+            tilemap[pos] = 'e';
+            std::cout << "Pontos: " << get_pontos();
+            break;
         // É necessário que os fantasmas sejam atualizados para fugirem
         case 'O':
             //status de poder comer os fantasmas
             inc_pontos();
+            this->isEnergized=2;
+
 
         tilemap[pos] = 'e';
         std::cout << "Pontos: " << get_pontos();
@@ -68,6 +73,9 @@ void Pacman::check_points(char* tilemap, int pos) {
 
 void Pacman::move(char* tilemap){
     std::cout<<dir;
+    if (isEnergized>0){
+        this->isEnergized--;
+    }
     switch (dir){
         case 0:
             if (tilemap[pos_y*28 + pos_x - 1] != 'W') {

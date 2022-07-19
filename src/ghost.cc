@@ -72,7 +72,47 @@ void Ghost::dec_step(){
     this->step-=1;
 }
 
-void Ghost::move(){
+void Ghost::state_update(){
+    this->state_timer= this->state_timer-1;
+    switch (this->state){
+        case 1:
+            if (this->state_timer<0){
+                this->state=2;
+                this->state_timer=270;
+            };
+        case 2:
+            if (this->state_timer<0){
+                this->state=1;
+                this->state_timer=270;
+            };
+        case 3:
+            if (this->state_timer<0){
+                this->state=4;
+                this->state_timer=32;
+            };
+        case 4:
+            if (this->state_timer<0){
+                this->state=1;
+                this->state_timer=270;
+            };
+        case 5:
+            if (this->pos_x==13 && this->pos_y==17) {
+                this->state = 6;
+                this->state_timer=16* 7;
+            }
+        case 6:
+            if (this->state_timer<0){
+                this->state=1;
+                this->state_timer=270;
+             };
+    };
+}
+
+void Ghost::move(int energized){
+    if (energized>=1){
+        this->state=3;
+        this->state_timer=50;
+    }
     switch (dir){
         case 0:
             this->dec_step();

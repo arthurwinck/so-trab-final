@@ -27,6 +27,7 @@ public:
     void set_pontos(int pontos);
     void inc_pontos();
     int get_pontos();
+    int energized() {return isEnergized;};
     void check_points(char* tilemap, int pos);
 
 private:
@@ -36,6 +37,7 @@ private:
     int pos_y;
     int step;
     int pontos;
+    int isEnergized;
 };
 
 __END_API
