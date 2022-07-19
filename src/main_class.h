@@ -44,7 +44,7 @@ public:
         Window* tela_obj = new Window;
         Input* input_obj = new Input;
 
-        Game_State* game_state = new Game_State(pacman_obj, red_ghost_obj, pink_ghost_obj,
+        Game_State* gamestate = new Game_State(pacman_obj, red_ghost_obj, pink_ghost_obj,
         blue_ghost_obj, orange_ghost_obj, input_obj, tela_obj);
 
         std::string ghost_name_1 = "   ghost_1";
@@ -55,14 +55,14 @@ public:
         std::string input = "                             input";
         std::string tela = "                                 tela";
 
-        ghost_thread[0] = new Thread(body_blinky, (char *) ghost_name_1.data(), 0, red_ghost_obj,pacman_obj,tela_obj);
-        ghost_thread[1] = new Thread(body_pinky, (char *) ghost_name_2.data(), 1, pink_ghost_obj,pacman_obj,tela_obj);
-        ghost_thread[2] = new Thread(body_inky, (char *) ghost_name_3.data(), 2, blue_ghost_obj, red_ghost_obj, pacman_obj, tela_obj);
-        ghost_thread[3] = new Thread(body_clyde, (char *) ghost_name_4.data(), 3, orange_ghost_obj,pacman_obj,tela_obj);
+        ghost_thread[0] = new Thread(body_blinky, (char *) ghost_name_1.data(), 0, gamestate);
+        ghost_thread[1] = new Thread(body_pinky, (char *) ghost_name_2.data(), 1, gamestate);
+        ghost_thread[2] = new Thread(body_inky, (char *) ghost_name_3.data(), 2, gamestate);
+        ghost_thread[3] = new Thread(body_clyde, (char *) ghost_name_4.data(), 3, gamestate);
 
-        pacman_thread = new Thread(body_pacman, (char *) pacman.data(), 5, pacman_obj, input_obj, tela_obj);
-        input_thread = new Thread(body_input, (char *) input.data(), 6, input_obj, tela_obj);
-        tela_thread = new Thread(body_tela, (char *) tela.data(), 7, tela_obj, pacman_obj, red_ghost_obj, pink_ghost_obj, blue_ghost_obj, orange_ghost_obj);
+        pacman_thread = new Thread(body_pacman, (char *) pacman.data(), 5, gamestate);
+        input_thread = new Thread(body_input, (char *) input.data(), 6, gamestate);
+        tela_thread = new Thread(body_tela, (char *) tela.data(), 7, gamestate);
 
         sem = new Semaphore();
 
@@ -105,7 +105,7 @@ public:
         std::cout << (char *) name << ": fim\n";
         
         delete sem;
-
+        delete gamestate;
         delete ghost_thread[0];
         delete ghost_thread[1];
         delete ghost_thread[2];
@@ -124,7 +124,7 @@ private:
     static const int ITERATIONS = 10;
 
     // Trocar
-    static void body_blinky(char *name, int id, Blinky* ghost, Pacman* pacman, Window* tela)
+    static void body_blinky(char *name, int id, Game_State* gamestate)
     {
         int i ;
         int pac_x;
@@ -135,12 +135,12 @@ private:
         //pac_x = pacman->get_pos_x();
         //pac_y = pacman->get_pos_y();
         //for (i = 0; i < ITERATIONS; i++)
-        while (tela->running()==1)
+        while (gamestate->get_window()->running()==1)
         {
-//            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
-            ghost->move(pacman->energized());
-            ghost->state_update(pacman->get_pos_x(),pacman->get_pos_y());
-            ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(),pacman->get_dir(), Window::get_maze());
+//            gamestate->get_blinky()->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
+            gamestate->get_blinky()->move(gamestate->get_pacman()->energized());
+            gamestate->get_blinky()->state_update(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y());
+            gamestate->get_blinky()->changetile(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(),gamestate->get_pacman()->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -151,7 +151,7 @@ private:
         ghost_thread[id]->thread_exit(id);
     }
 
-    static void body_pinky(char *name, int id, Pinky* ghost, Pacman* pacman, Window* tela)
+    static void body_pinky(char *name, int id, Game_State* gamestate)
     {
         int i ;
         int pac_x;
@@ -159,15 +159,15 @@ private:
         std::cout << name << ": inicio\n";
 
         //sem->p();
-        //pac_x = pacman->get_pos_x();
-        //pac_y = pacman->get_pos_y();
+        //pac_x = gamestate->get_pacman()->get_pos_x();
+        //pac_y = gamestate->get_pacman()->get_pos_y();
         //for (i = 0; i < ITERATIONS; i++)
-        while (tela->running()==1)
+        while (gamestate->get_window()->running()==1)
         {
-//            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
-            ghost->move(pacman->energized());
-            ghost->state_update(pacman->get_pos_x(),pacman->get_pos_y());
-            ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(),pacman->get_dir(), Window::get_maze());
+//            gamestate->get_pinky()->set_target(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(), Window::get_maze());
+            gamestate->get_pinky()->move(gamestate->get_pacman()->energized());
+            gamestate->get_pinky()->state_update(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y());
+            gamestate->get_pinky()->changetile(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(),gamestate->get_pacman()->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -178,7 +178,7 @@ private:
         ghost_thread[id]->thread_exit(id);
     }
 
-    static void body_clyde(char *name, int id, Clyde* ghost, Pacman* pacman, Window* tela)
+    static void body_clyde(char *name, int id, Game_State* gamestate)
     {
         int i ;
         int pac_x;
@@ -186,15 +186,15 @@ private:
         std::cout << name << ": inicio\n";
 
         //sem->p();
-        //pac_x = pacman->get_pos_x();
-        //pac_y = pacman->get_pos_y();
+        //pac_x = gamestate->get_pacman()->get_pos_x();
+        //pac_y = gamestate->get_pacman()->get_pos_y();
         //for (i = 0; i < ITERATIONS; i++)
-        while (tela->running()==1)
+        while (gamestate->get_window()->running()==1)
         {
-//            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
-            ghost->move(pacman->energized());
-            ghost->state_update(pacman->get_pos_x(),pacman->get_pos_y());
-            ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(),pacman->get_dir(), Window::get_maze());
+//            gamestate->get_clyde()->set_target(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(), Window::get_maze());
+            gamestate->get_clyde()->move(gamestate->get_pacman()->energized());
+            gamestate->get_clyde()->state_update(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y());
+            gamestate->get_clyde()->changetile(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(),gamestate->get_pacman()->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -205,7 +205,7 @@ private:
         ghost_thread[id]->thread_exit(id);
     }
 
-    static void body_inky(char *name, int id, Inky* ghost, Blinky* blinky, Pacman* pacman, Window* tela)
+    static void body_inky(char *name, int id, Game_State* gamestate)
     {
         int i ;
         int pac_x;
@@ -213,15 +213,15 @@ private:
         std::cout << name << ": inicio\n";
 
         //sem->p();
-        //pac_x = pacman->get_pos_x();
-        //pac_y = pacman->get_pos_y();
+        //pac_x = gamestate->get_pacman()->get_pos_x();
+        //pac_y = gamestate->get_pacman()->get_pos_y();
         //for (i = 0; i < ITERATIONS; i++)
-        while (tela->running()==1)
+        while (gamestate->get_window()->running()==1)
         {
-//            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
-            ghost->move(pacman->energized());
-            ghost->state_update(pacman->get_pos_x(),pacman->get_pos_y());
-            ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(), blinky->get_pos_x(), blinky->get_pos_y(), pacman->get_dir(), Window::get_maze());
+//            gamestate->get_inky()->set_target(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(), Window::get_maze());
+            gamestate->get_inky()->move(gamestate->get_pacman()->energized());
+            gamestate->get_inky()->state_update(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y());
+            gamestate->get_inky()->changetile(gamestate->get_pacman()->get_pos_x(),gamestate->get_pacman()->get_pos_y(), gamestate->get_blinky()->get_pos_x(), gamestate->get_blinky()->get_pos_y(), gamestate->get_pacman()->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -232,7 +232,7 @@ private:
         ghost_thread[id]->thread_exit(id);
     }
 
-    static void body_pacman(char *name, int id, Pacman* pacman, Input* input, Window* tela) {
+    static void body_pacman(char *name, int id, Game_State* gamestate) {
         int i ;
 
         std::cout << name << ": inicio\n";
@@ -241,12 +241,12 @@ private:
         sem->v();
         
         //for (i = 0; i < ITERATIONS; i++)
-        while (tela->running()==1)
+        while (gamestate->get_window()->running()==1)
         {
             //Proteger sessão crítica
-            pacman->update(input->get_dir(), Window::get_maze());
-            pacman->move(Window::get_maze());
-            pacman->changetile();
+            gamestate->get_pacman()->update(gamestate->get_input()->get_dir(), Window::get_maze());
+            gamestate->get_pacman()->move(Window::get_maze());
+            gamestate->get_pacman()->changetile();
 
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
@@ -257,7 +257,7 @@ private:
         pacman_thread->thread_exit(id);
     }
 
-    static void body_input(char *name, int id, Input* input, Window* tela) {
+    static void body_input(char *name, int id, Game_State* gamestate) {
         int i ;
         Input::Command command;
 
@@ -266,9 +266,9 @@ private:
         sem->p();
         sem->v();
         //for (i = 0; i < ITERATIONS; i++)
-        while (tela->running()==1)
+        while (gamestate->get_window()->running()==1)
         {
-            input->get_command();
+            gamestate->get_input()->get_command();
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -280,7 +280,7 @@ private:
     }
 
     //Usar const e & no ponteiro --
-    static void body_tela(char *name, int id, Window* tela, Pacman* pacman, Blinky* blinky, Pinky* pinky, Inky* inky, Clyde* clyde) {
+    static void body_tela(char *name, int id, Game_State* gamestate) {
         int i ;
 
         std::cout << name << ": inicio\n";
@@ -288,14 +288,14 @@ private:
         sem->p();
         sem->v();
         //for (i = 0; i < ITERATIONS; i++)
-        while (tela->running()==1)
+        while (gamestate->get_window()->running()==1)
         {
                 
-            tela->run(pacman->get_pos_x(), pacman->get_pos_y(),pacman->get_step() ,pacman->get_dir(),
-            blinky->get_pos_x(),blinky->get_pos_y(), blinky->get_step(), blinky->get_dir(), blinky->get_state(),
-            pinky->get_pos_x(),pinky->get_pos_y(), pinky->get_step(), pinky->get_dir(), pinky->get_state(),
-            inky->get_pos_x(),inky->get_pos_y(), inky->get_step(), inky->get_dir(), inky->get_state(),
-            clyde->get_pos_x(),clyde->get_pos_y(), clyde->get_step(), clyde->get_dir(), clyde->get_state());
+            gamestate->get_window()->run(gamestate->get_pacman()->get_pos_x(), gamestate->get_pacman()->get_pos_y(),gamestate->get_pacman()->get_step() ,gamestate->get_pacman()->get_dir(),
+            gamestate->get_blinky()->get_pos_x(),gamestate->get_blinky()->get_pos_y(), gamestate->get_blinky()->get_step(), gamestate->get_blinky()->get_dir(), gamestate->get_blinky()->get_state(),
+            gamestate->get_pinky()->get_pos_x(),gamestate->get_pinky()->get_pos_y(), gamestate->get_pinky()->get_step(), gamestate->get_pinky()->get_dir(), gamestate->get_pinky()->get_state(),
+            gamestate->get_inky()->get_pos_x(),gamestate->get_inky()->get_pos_y(), gamestate->get_inky()->get_step(), gamestate->get_inky()->get_dir(), gamestate->get_inky()->get_state(),
+            gamestate->get_clyde()->get_pos_x(),gamestate->get_clyde()->get_pos_y(), gamestate->get_clyde()->get_step(), gamestate->get_clyde()->get_dir(), gamestate->get_clyde()->get_state());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
         }
@@ -311,6 +311,7 @@ private:
         static Thread *input_thread;
         static Thread *tela_thread;
         static Semaphore *sem;
+        static Game_State* gamestate;
 
         // Objects
         static Pacman* pacman_obj;
