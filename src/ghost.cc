@@ -44,7 +44,7 @@ int Ghost::shortest_distance_path(int pac_pos_x, int pac_pos_y, char* tilemap, i
     if ((tilemap[pos_y*28 + pos_x + 1] != 'W') && (this->get_dir()!=0)) { //tile a direita não parede
         arr[1] = abs(pos_y - pac_pos_y + offset_y) + abs(pos_x+1 - pac_pos_x + offset_x); 
     }
-    if ((tilemap[(pos_y + 1)*28 + pos_x] != 'W') && (this->get_dir()!=3)) { //tile abaixo não parede
+    if ((tilemap[(pos_y + 1)*28 + pos_x] != 'W' && (tilemap[(pos_y + 1)*28 + pos_x] != 'G')) && (this->get_dir()!=3)) { //tile abaixo não parede
         arr[2] = abs(pos_y+1 - pac_pos_y + offset_y) + abs(pos_x - pac_pos_x + offset_x); 
     }
     if ((tilemap[(pos_y-1)*28 + pos_x] != 'W') && (this->get_dir()!=2)){ //tile acima não parede
@@ -58,6 +58,7 @@ int Ghost::shortest_distance_path(int pac_pos_x, int pac_pos_y, char* tilemap, i
             path=i;
         }
     };
+
     return path;
 
     };
@@ -72,7 +73,7 @@ void Ghost::dec_step(){
     this->step-=1;
 }
 
-void Ghost::state_update(){
+void Ghost::state_update(int pac_x, int pac_y){
     this->state_timer= this->state_timer-1;
     switch (this->state){
         case 1:
@@ -80,31 +81,49 @@ void Ghost::state_update(){
                 this->state=2;
                 this->state_timer=270;
             };
+            break;
         case 2:
             if (this->state_timer<0){
                 this->state=1;
                 this->state_timer=270;
             };
+            break;
         case 3:
-            if (this->state_timer<0){
+            if (this->get_pos_x()==pac_x && this->get_pos_y()==pac_y){
+                this->state=6;
+                this->set_pos(13,13);
+                this->state_timer=270;
+                this->set_dir(0);
+            } else if (this->state_timer<0){
                 this->state=4;
                 this->state_timer=32;
             };
+            break;
         case 4:
-            if (this->state_timer<0){
+            if (this->get_pos_x()==pac_x && this->get_pos_y()==pac_y){
+                this->state=6;
+                this->set_pos(13,13);
+                this->state_timer=270;
+                this->set_dir(0);
+            } else if (this->state_timer<0){
                 this->state=1;
                 this->state_timer=270;
             };
+            break;
         case 5:
             if (this->pos_x==13 && this->pos_y==17) {
                 this->state = 6;
                 this->state_timer=16* 7;
-            }
+            };
+            break;
         case 6:
             if (this->state_timer<0){
                 this->state=1;
+                this->set_pos(13,11);
+                this->set_dir(0);
                 this->state_timer=270;
              };
+             break;
     };
 }
 
@@ -132,7 +151,15 @@ void Ghost::move(int energized){
 
 
 void Ghost::changetile(int pac_pos_x, int pac_pos_y, int pac_dir, char* tilemap){
-    if (this->step<=0){
+    if (this->pos_x<1){
+        this->set_pos(25,14);
+        this->step=4;
+        this->set_dir(0);
+    }else if (this->pos_x>26){
+        this->set_pos(1,14);
+        this->step=4;
+        this->set_dir(1);
+    } else if (this->step<=0){
         if ((dir==0) or (dir==1)){
             this->set_pos((this->pos_x)-1,this->pos_y);
         } else if ((dir==2) or (dir==3)){

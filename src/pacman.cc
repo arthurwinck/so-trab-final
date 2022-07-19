@@ -105,7 +105,15 @@ void Pacman::move(char* tilemap){
 }
 
 void Pacman::changetile(){
-    if (this->step<=0){
+    if (this->pos_x<1){
+        this->set_pos(25,14);
+        this->step=4;
+        this->set_dir(0);
+    }else if (this->pos_x>26){
+        this->set_pos(1,14);
+        this->step=4;
+        this->set_dir(1);
+    } else if (this->step<=0){
         if ((dir==0) or (dir==1)){
             this->set_pos((this->get_pos_x())-1,this->get_pos_y());
         } else if ((dir==2) or (dir==3)){

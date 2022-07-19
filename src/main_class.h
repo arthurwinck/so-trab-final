@@ -36,10 +36,10 @@ public:
         std::cout << (char *) name << ": inicio\n";
         
         Pacman* pacman_obj = new Pacman(14, 23);
-        Blinky* red_ghost_obj = new Blinky(10, 20,0);
-        Pinky* pink_ghost_obj = new Pinky(16, 20,1);
-        Inky* blue_ghost_obj = new Inky(20, 20,3);
-        Clyde* orange_ghost_obj = new Clyde(19, 20,3);
+        Blinky* red_ghost_obj = new Blinky(13, 13,0);
+        Pinky* pink_ghost_obj = new Pinky(13, 13,1);
+        Inky* blue_ghost_obj = new Inky(13, 13,3);
+        Clyde* orange_ghost_obj = new Clyde(13, 13,3);
         Window* tela_obj = new Window;
         Input* input_obj = new Input;
 
@@ -136,7 +136,7 @@ private:
         {
 //            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
             ghost->move(pacman->energized());
-            ghost->state_update();
+            ghost->state_update(pacman->get_pos_x(),pacman->get_pos_y());
             ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(),pacman->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
@@ -163,7 +163,7 @@ private:
         {
 //            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
             ghost->move(pacman->energized());
-            ghost->state_update();
+            ghost->state_update(pacman->get_pos_x(),pacman->get_pos_y());
             ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(),pacman->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
@@ -190,7 +190,7 @@ private:
         {
 //            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
             ghost->move(pacman->energized());
-            ghost->state_update();
+            ghost->state_update(pacman->get_pos_x(),pacman->get_pos_y());
             ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(),pacman->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
@@ -217,7 +217,7 @@ private:
         {
 //            ghost->set_target(pacman->get_pos_x(),pacman->get_pos_y(), Window::get_maze());
             ghost->move(pacman->energized());
-            ghost->state_update();
+            ghost->state_update(pacman->get_pos_x(),pacman->get_pos_y());
             ghost->changetile(pacman->get_pos_x(),pacman->get_pos_y(), blinky->get_pos_x(), blinky->get_pos_y(), pacman->get_dir(), Window::get_maze());
             std::cout << name << ": " << i << "\n" ;
             Thread::yield();
