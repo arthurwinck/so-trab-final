@@ -70,14 +70,12 @@ public:
         return pos_y;
     };
 
-    int set_pacman_pos(int x, int y) {
-        sem_pacman->p();
-        get_pacman()->set_pos(x, y);
-        sem_pacman->v();
-    };
+    // int set_pacman_pos(int x, int y) {
+    //     sem_pacman->p();
+    //     get_pacman()->set_pos(x, y);
+    //     sem_pacman->v();
+    // };
     
-
-
 
     Blinky* get_blinky() {return blinky;};
     Pinky* get_pinky() {return pinky;};
