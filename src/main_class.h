@@ -9,6 +9,7 @@
 #include "pacman.h"
 #include "ghost.h"
 #include "input.h"
+#include "ghosttypes.h"
 #include "window.h"
 
 __BEGIN_API
@@ -35,14 +36,14 @@ public:
         std::cout << (char *) name << ": inicio\n";
         
         Pacman* pacman_obj = new Pacman(14, 23);
-        Ghost* red_ghost_obj = new Ghost(10, 20,0);
+        Ghost* red_ghost_obj = new Blinky(10, 20,0);
         Ghost* pink_ghost_obj = new Ghost(16, 20,1);
         Ghost* orange_ghost_obj = new Ghost(19, 20,3);
         Ghost* blue_ghost_obj = new Ghost(20, 20,3);
         Window* tela_obj = new Window;
         Input* input_obj = new Input;
 
-
+    
         std::string ghost_name_1 = "   ghost_1";
         std::string ghost_name_2 = "       ghost_2";
         std::string ghost_name_3 = "           ghost_3";

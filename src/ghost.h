@@ -1,5 +1,6 @@
 //Criar super classe personagem para englobar ghost e pacman
 #include "traits.h"
+#include <cmath>
 __BEGIN_API
 
 class Ghost
@@ -22,7 +23,7 @@ public:
     int get_step();
     void inc_step();
     void dec_step();
-    void changetile(int pac_pos_x, int pac_pos_y, int pac_dir, char* tilemap);
+    void changetile(int pac_pos_x, int pac_pos_y, char* tilemap);
     void move(int energized);
     int get_state();
     void state_update();
@@ -35,5 +36,4 @@ private:
     int step;
     int type;
 };
-
 __END_API
