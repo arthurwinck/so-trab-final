@@ -70,12 +70,12 @@ public:
         return pos_y;
     };
 
-    // int set_pacman_pos_y() {
-    //     sem_pacman->p();
-    //     int pos_y = get_pacman()->get_pos_y();
-    //     sem_pacman->v();
-    //     return pos_y;
-    // };
+    int set_pacman_pos(int x, int y) {
+        sem_pacman->p();
+        get_pacman()->set_pos(x, y);
+        sem_pacman->v();
+    };
+    
 
 
 
